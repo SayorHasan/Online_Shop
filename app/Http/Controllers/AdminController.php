@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Files;
 use Carbon\Carbon;
 use Intervention\Image\Laravel\Facades\Image;
 
@@ -39,6 +40,49 @@ class AdminController extends Controller
         $brand->save();
         return redirect()->route('admin.brands')->with('status','Brand has been added successfully');
     }
+
+    public function brand_edit($id){
+        $brand = Brand::find($id);
+        return view('admin.brand-edit',compact('brand'));
+    }
+
+    public function brand_update(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'slug' => 'required|unique:brands,slug,' . $request->id,
+        'image' => 'nullable|mimes:png,jpg,jpeg|max:2048'
+    ]);
+
+    $brand = Brand::find($request->id);
+
+    if (!$brand) {
+        return redirect()->back()->with('error', 'Brand not found');
+    }
+
+    $brand->name = $request->name;
+    $brand->slug = Str::slug($request->name);
+
+    if ($request->hasFile('image')) {
+        if ($brand->image && File::exists(public_path('uploads/brands/'.$brand->image))) {
+            File::delete(public_path('uploads/brands/'.$brand->image));
+        }
+
+        $image = $request->file('image');
+        $file_extension = $image->extension();
+        $file_name = Carbon::now()->timestamp.'.'.$file_extension;
+
+        $this->GenerateBrandThumbailsImage($image, $file_name);
+
+        $brand->image = $file_name;
+    }
+
+    $brand->save();
+
+    return redirect()->route('admin.brands')->with('status', 'Brand has been updated successfully');
+}
+
+
     public function GenerateBrandThumbailsImage($image,$imageName){
         $destinationPath = public_path('uploads/brands');
         $img = Image::read($image->path());
