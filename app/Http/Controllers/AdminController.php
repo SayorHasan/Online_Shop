@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Files;
+use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Intervention\Image\Laravel\Facades\Image;
 
@@ -90,5 +90,13 @@ class AdminController extends Controller
         $img->resize(124,124,function($constraint){
             $constraint->aspectRatio();
         })->save($destinationPath.'/'.$imageName);
+    }
+    public function brand_delete($id){
+        $brand = Brand::find($id);
+        if(File::exists(public_path('uploads/brands').'/'.$brand->image)){
+            File::delete(public_path('uploads/brands').'/'.$brand->image);
+        }
+        $brand->delete();
+        return redirect()->route('admin.brands')->with('status','Brand has been deleted successfully!');
     }
 }
