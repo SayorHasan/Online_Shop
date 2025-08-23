@@ -86,7 +86,9 @@
 <script>
     $(function(){
         
+        
         $("#myFile").on("change", function(e){
+            const photoInp = $("#myFile");
             const [file] = this.files;
             if(file){
                 $("#imgpreview img").attr('src', URL.createObjectURL(file));
