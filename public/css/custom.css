@@ -3,6 +3,226 @@ body {
     zoom: 90% !important;
 }
 
+/* Fix for admin dashboard logo and layout */
+.layout-wrap .section-menu-left > .box-logo {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 30 !important;
+    width: 280px !important;
+    background-color: #fff !important;
+    border-bottom: 1px solid #F2F7FB !important;
+}
+
+.layout-wrap .section-content-right .main-content {
+    padding-left: 280px !important;
+    padding-top: 80px !important;
+}
+
+.layout-wrap .section-menu-left > .center {
+    margin-top: 80px !important;
+}
+
+/* Ensure dashboard content is visible */
+.main-content-inner {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Fix for image preview */
+#imgpreview {
+    display: none;
+    margin-bottom: 15px;
+}
+
+#imgpreview img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    border: 2px solid #e1e1e1;
+}
+
+.gitems {
+    display: inline-block;
+    margin: 5px;
+    position: relative;
+}
+
+.gitems img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Ensure proper table display */
+.wg-table.table-all-user {
+    overflow-x: auto;
+}
+
+/* Additional fixes for admin dashboard */
+.section-menu-left {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    height: 100vh !important;
+    width: 280px !important;
+    background-color: #fff !important;
+    z-index: 20 !important;
+    overflow-y: auto !important;
+    transition: left 0.3s ease !important;
+}
+
+.section-content-right {
+    margin-left: 280px !important;
+    width: calc(100% - 280px) !important;
+    transition: margin-left 0.3s ease !important;
+}
+
+.header-dashboard {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 280px !important;
+    z-index: 25 !important;
+    background-color: #fff !important;
+    border-bottom: 1px solid #F2F7FB !important;
+    transition: left 0.3s ease !important;
+}
+
+/* Full-width layout styles */
+.layout-wrap.full-width .section-menu-left {
+    left: -280px !important;
+    transform: translateX(-100%) !important;
+}
+
+.layout-wrap.full-width .section-content-right {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+
+.layout-wrap.full-width .header-dashboard {
+    left: 0 !important;
+}
+
+.layout-wrap.full-width .main-content {
+    padding-left: 0 !important;
+}
+
+/* Ensure logo is hidden when sidebar is hidden */
+.layout-wrap.full-width .box-logo {
+    left: -280px !important;
+    transform: translateX(-100%) !important;
+}
+
+.layout-wrap.full-width .section-menu-left > .center {
+    left: -280px !important;
+    transform: translateX(-100%) !important;
+}
+
+/* Button show/hide styles */
+.button-show-hide {
+    cursor: pointer !important;
+    transition: transform 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background-color: #f8f9fa !important;
+    border: 1px solid #e9ecef !important;
+    padding: 0 8px !important;
+    min-width: 60px !important;
+}
+
+.button-show-hide:hover {
+    background-color: #e9ecef !important;
+    transform: scale(1.05) !important;
+}
+
+.button-show-hide i {
+    font-size: 18px !important;
+    color: #6c757d !important;
+    transition: color 0.3s ease !important;
+}
+
+.button-show-hide:hover i {
+    color: #495057 !important;
+}
+
+.layout-wrap.full-width .button-show-hide {
+    transform: rotate(180deg) !important;
+}
+
+.layout-wrap.full-width .button-show-hide:hover {
+    transform: rotate(180deg) scale(1.05) !important;
+}
+
+/* Ensure all admin views are properly displayed */
+.admin .main-content-inner,
+.admin .main-content-wrap {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Fix for any hidden elements */
+.hidden {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Force visibility for admin content */
+.admin .main-content-inner,
+.admin .main-content-wrap,
+.admin .wg-box,
+.admin .tf-section,
+.admin .tf-section-1,
+.admin .tf-section-2,
+.admin .tf-section-3,
+.admin .tf-section-4,
+.admin .tf-section-5 {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+}
+
+/* Ensure proper spacing and layout */
+.admin .main-content {
+    min-height: 100vh !important;
+    background: #F2F7FB !important;
+}
+
+.admin .main-content-inner {
+    padding: 30px !important;
+}
+
+/* Fix for table display */
+.admin .table-responsive {
+    overflow-x: auto !important;
+}
+
+.admin .wg-table {
+    min-width: 100% !important;
+}
+
+/* Ensure proper z-index for all elements */
+.admin .section-menu-left {
+    z-index: 1000 !important;
+}
+
+.admin .header-dashboard {
+    z-index: 999 !important;
+}
+
+.admin .main-content {
+    z-index: 1 !important;
+}
+
 #logo_header_mobile {
     max-width: 190px;
 }
@@ -84,9 +304,6 @@ body {
     width: 20px;
     margin: 0 auto;
 }
-.wg-table.table-all-user>* {
-    min-width: 1260px;
-}
 
 /*------*/
 .wgp-pagination svg {
@@ -161,4 +378,716 @@ body {
 .view-icon {
     width: 20px;
     margin: 0 auto;
+}
+
+/* Sidebar status indicator */
+.sidebar-status {
+    font-weight: bold !important;
+    transition: color 0.3s ease !important;
+    display: inline-block !important;
+    min-width: 20px !important;
+    text-align: center !important;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+    .section-menu-left {
+        left: -280px !important;
+        transition: left 0.3s ease !important;
+    }
+    
+    .section-content-right {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+    
+    .header-dashboard {
+        left: 0 !important;
+    }
+    
+    .main-content {
+        padding-left: 0 !important;
+    }
+    
+    /* Show sidebar on mobile when not full-width */
+    .layout-wrap:not(.full-width) .section-menu-left {
+        left: 0 !important;
+    }
+    
+    .layout-wrap:not(.full-width) .section-content-right {
+        margin-left: 280px !important;
+        width: calc(100% - 280px) !important;
+    }
+    
+    .layout-wrap:not(.full-width) .header-dashboard {
+        left: 280px !important;
+    }
+    
+    .layout-wrap:not(.full-width) .main-content {
+        padding-left: 280px !important;
+    }
+    
+    /* Ensure button is visible on mobile */
+    .button-show-hide {
+        position: fixed !important;
+        top: 20px !important;
+        right: 20px !important;
+        z-index: 1001 !important;
+        background-color: #fff !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+    }
+}
+
+/* Ensure smooth transitions for all layout changes */
+.layout-wrap,
+.section-menu-left,
+.section-content-right,
+.header-dashboard,
+.main-content {
+    transition: all 0.3s ease !important;
+}
+
+/* Ensure sidebar is completely hidden when full-width */
+.layout-wrap.full-width .section-menu-left {
+    left: -280px !important;
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.layout-wrap.full-width .box-logo {
+    left: -280px !important;
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+.layout-wrap.full-width .section-menu-left > .center {
+    left: -280px !important;
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Ensure content takes full width when sidebar is hidden */
+.layout-wrap.full-width .section-content-right {
+    margin-left: 0 !important;
+    width: 100% !important;
+    left: 0 !important;
+}
+
+.layout-wrap.full-width .header-dashboard {
+    left: 0 !important;
+    width: 100% !important;
+}
+
+.layout-wrap.full-width .main-content {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}
+
+/* Smooth transitions for sidebar toggle */
+.section-menu-left,
+.box-logo,
+.section-menu-left > .center,
+.section-content-right,
+.header-dashboard,
+.main-content {
+    transition: all 0.3s ease !important;
+}
+
+/* Prevent layout shift during transitions */
+.layout-wrap {
+    overflow-x: hidden !important;
+}
+
+/* Ensure content doesn't jump during sidebar toggle */
+.section-content-right {
+    position: relative !important;
+}
+
+/* Force sidebar to stay hidden when full-width */
+.layout-wrap.full-width .section-menu-left,
+.layout-wrap.full-width .box-logo,
+.layout-wrap.full-width .section-menu-left > .center {
+    position: absolute !important;
+    z-index: -1 !important;
+}
+
+/* Hide logo image when sidebar is hidden */
+.layout-wrap.full-width #logo_header,
+.layout-wrap.full-width #site-logo-inner {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    display: none !important;
+}
+
+/* Show logo image when sidebar is visible */
+.layout-wrap:not(.full-width) #logo_header,
+.layout-wrap:not(.full-width) #site-logo-inner {
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+}
+
+/* Admin Dashboard Earnings Revenue Section */
+.admin .wg-box {
+    background: #fff !important;
+    border-radius: 12px !important;
+    padding: 24px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    margin-bottom: 30px !important;
+}
+
+.admin .wg-box h5 {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #111 !important;
+    margin-bottom: 20px !important;
+}
+
+.admin .block-legend {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.admin .block-legend .dot {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+}
+
+.admin .block-legend .dot.t1 {
+    background-color: #2377FC !important;
+}
+
+.admin .block-legend .dot.t2 {
+    background-color: #FFA500 !important;
+}
+
+.admin .box-icon-trending {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+    background-color: #f8f9fa !important;
+}
+
+.admin .box-icon-trending.up {
+    color: #28a745 !important;
+}
+
+.admin .box-icon-trending.down {
+    color: #dc3545 !important;
+}
+
+/* Ensure proper spacing for dashboard sections */
+.admin .tf-section-2 {
+    margin-bottom: 30px !important;
+}
+
+.admin .tf-section {
+    margin-bottom: 30px !important;
+}
+
+/* Chart container styling */
+.admin #line-chart-8 {
+    margin-top: 20px !important;
+    min-height: 300px !important;
+}
+
+/* Improve overall admin dashboard layout */
+.admin .main-content-inner {
+    padding: 30px !important;
+    background: #F2F7FB !important;
+    min-height: calc(100vh - 80px) !important;
+}
+
+.admin .main-content-wrap {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+}
+
+/* Dashboard stats cards styling */
+.admin .wg-chart-default {
+    background: #fff !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.admin .wg-chart-default:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
+}
+
+.admin .wg-chart-default .image.ic-bg {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, #2377FC, #4A90E2) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.admin .wg-chart-default .image.ic-bg i {
+    color: #fff !important;
+    font-size: 24px !important;
+}
+
+.admin .wg-chart-default h4 {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: #111 !important;
+    margin: 0 !important;
+}
+
+.admin .wg-chart-default .body-text {
+    color: #6c757d !important;
+    font-size: 14px !important;
+    margin-bottom: 8px !important;
+}
+
+/* Earnings revenue section improvements */
+.admin .wg-box .flex.flex-wrap.gap40 {
+    gap: 40px !important;
+    margin-bottom: 20px !important;
+}
+
+.admin .wg-box .flex.flex-wrap.gap40 > div {
+    min-width: 200px !important;
+}
+
+.admin .wg-box .flex.flex-wrap.gap40 h4 {
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    color: #111 !important;
+    margin: 0 !important;
+}
+
+.admin .wg-box .flex.flex-wrap.gap40 .text-tiny {
+    font-size: 14px !important;
+    color: #6c757d !important;
+    font-weight: 500 !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .admin .tf-section-2 .flex {
+        flex-direction: column !important;
+    }
+    
+    .admin .w-half {
+        width: 100% !important;
+    }
+    
+    .admin .wg-box .flex.flex-wrap.gap40 {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+}
+
+/* Logo link styling and interactions */
+.admin #site-logo-inner,
+.admin .header-left a[href*="home"] {
+    transition: all 0.3s ease !important;
+    display: block !important;
+}
+
+.admin #site-logo-inner:hover,
+.admin .header-left a[href*="home"]:hover {
+    transform: scale(1.05) !important;
+    opacity: 0.8 !important;
+}
+
+.admin #logo_header,
+.admin #logo_header_mobile {
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+}
+
+.admin #site-logo-inner:hover #logo_header,
+.admin .header-left a[href*="home"]:hover #logo_header_mobile {
+    filter: brightness(1.1) !important;
+}
+
+/* Add subtle indicator that logo is clickable */
+.admin #site-logo-inner::after,
+.admin .header-left a[href*="home"]::after {
+    content: "🏠" !important;
+    position: absolute !important;
+    top: 5px !important;
+    right: 5px !important;
+    font-size: 12px !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+}
+
+.admin #site-logo-inner:hover::after,
+.admin .header-left a[href*="home"]:hover::after {
+    opacity: 1 !important;
+}
+
+/* Logo positioning for home indicator */
+.admin #site-logo-inner,
+.admin .header-left a[href*="home"] {
+    position: relative !important;
+}
+
+.admin .box-logo {
+    position: relative !important;
+}
+
+/* Ensure logo images are properly sized */
+.admin #logo_header,
+.admin #logo_header_mobile {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Product action buttons styling */
+.admin .list-icon-function {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.admin .list-icon-function .item {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+}
+
+.admin .list-icon-function .item:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+.admin .list-icon-function .item.eye {
+    background-color: #17a2b8 !important;
+    color: white !important;
+}
+
+.admin .list-icon-function .item.edit {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.admin .list-icon-function .item.delete {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.admin .list-icon-function .item.delete:hover {
+    background-color: #c82333 !important;
+}
+
+/* Hover effects for action buttons */
+.admin .list-icon-function .item.hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+}
+
+/* Search form improvements */
+.admin .form-search {
+    position: relative !important;
+}
+
+.admin .form-search .button-submit {
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 100% !important;
+}
+
+.admin .form-search .button-submit button {
+    border: none !important;
+    background: #2377FC !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 0 6px 6px 0 !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.admin .form-search .button-submit button:hover {
+    background: #1a5bb8 !important;
+}
+
+.admin .form-search input[name="name"] {
+    padding-right: 50px !important;
+    border-radius: 6px !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.admin .form-search input[name="name"]:focus {
+    border-color: #2377FC !important;
+    box-shadow: 0 0 0 0.2rem rgba(35, 119, 252, 0.25) !important;
+}
+
+/* Alert styling */
+.admin .alert {
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+    margin-bottom: 20px !important;
+    border: 1px solid transparent !important;
+}
+
+.admin .alert-success {
+    background-color: #d4edda !important;
+    border-color: #c3e6cb !important;
+    color: #155724 !important;
+}
+
+.admin .alert-danger {
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+    color: #721c24 !important;
+}
+
+/* Breadcrumb improvements */
+.admin .breadcrumbs {
+    font-size: 14px !important;
+}
+
+.admin .breadcrumbs a {
+    color: #6c757d !important;
+    text-decoration: none !important;
+    transition: color 0.3s ease !important;
+}
+
+.admin .breadcrumbs a:hover {
+    color: #2377FC !important;
+}
+
+.admin .breadcrumbs .icon-chevron-right {
+    color: #adb5bd !important;
+    margin: 0 8px !important;
+}
+
+/* Product table improvements */
+.admin .table-responsive {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.admin .table {
+    margin-bottom: 0 !important;
+}
+
+.admin .table th {
+    background-color: #f8f9fa !important;
+    border-color: #dee2e6 !important;
+    font-weight: 600 !important;
+    color: #495057 !important;
+    padding: 12px 8px !important;
+}
+
+.admin .table td {
+    padding: 12px 8px !important;
+    vertical-align: middle !important;
+    border-color: #dee2e6 !important;
+}
+
+.admin .table tbody tr:hover {
+    background-color: #f8f9fa !important;
+}
+
+/* Product image styling */
+.admin .pname .image {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    margin-bottom: 8px !important;
+}
+
+.admin .pname .image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+.admin .pname .name {
+    margin-top: 8px !important;
+}
+
+.admin .pname .name a {
+    color: #495057 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+}
+
+.admin .pname .name a:hover {
+    color: #2377FC !important;
+}
+
+/* Status indicators */
+.admin .table td:nth-child(8) {
+    font-weight: 500 !important;
+}
+
+.admin .table td:nth-child(8):contains("Yes") {
+    color: #28a745 !important;
+}
+
+.admin .table td:nth-child(8):contains("No") {
+    color: #6c757d !important;
+}
+
+.admin .table td:nth-child(9) {
+    font-weight: 500 !important;
+}
+
+.admin .table td:nth-child(9):contains("in_stock") {
+    color: #28a745 !important;
+}
+
+.admin .table td:nth-child(9):contains("out_of_stock") {
+    color: #dc3545 !important;
+}
+
+/* Product edit form improvements */
+.admin .remove-main-image {
+    position: absolute !important;
+    top: -5px !important;
+    right: -5px !important;
+    background: #dc3545 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 20px !important;
+    height: 20px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    z-index: 10 !important;
+}
+
+.admin .remove-main-image:hover {
+    background: #c82333 !important;
+    transform: scale(1.1) !important;
+}
+
+.admin .remove-gallery-item {
+    position: absolute !important;
+    top: -5px !important;
+    right: -5px !important;
+    background: #dc3545 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 20px !important;
+    height: 20px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    z-index: 10 !important;
+}
+
+.admin .remove-gallery-item:hover {
+    background: #c82333 !important;
+    transform: scale(1.1) !important;
+}
+
+/* Product edit form image preview styling */
+.admin #imgpreview {
+    position: relative !important;
+}
+
+.admin #imgpreview img {
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.admin .upload-image {
+    position: relative !important;
+}
+
+/* Product edit form overall styling */
+.admin .form-edit-product .wg-box {
+    margin-bottom: 30px !important;
+}
+
+.admin .form-edit-product fieldset {
+    margin-bottom: 20px !important;
+}
+
+.admin .form-edit-product .body-title {
+    font-weight: 600 !important;
+    color: #495057 !important;
+    margin-bottom: 8px !important;
+}
+
+.admin .form-edit-product input[type="text"],
+.admin .form-edit-product input[type="number"],
+.admin .form-edit-product textarea,
+.admin .form-edit-product select {
+    border: 1px solid #dee2e6 !important;
+    border-radius: 6px !important;
+    padding: 10px 12px !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.admin .form-edit-product input[type="text"]:focus,
+.admin .form-edit-product input[type="number"]:focus,
+.admin .form-edit-product textarea:focus,
+.admin .form-edit-product select:focus {
+    border-color: #2377FC !important;
+    box-shadow: 0 0 0 0.2rem rgba(35, 119, 252, 0.25) !important;
+    outline: none !important;
+}
+
+.admin .form-edit-product .text-tiny {
+    color: #6c757d !important;
+    font-size: 12px !important;
+    margin-top: 5px !important;
+}
+
+.admin .form-edit-product .tf-button {
+    padding: 12px 24px !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+
+.admin .form-edit-product .tf-button.style-1 {
+    background: #2377FC !important;
+    color: white !important;
+    border: none !important;
+}
+
+.admin .form-edit-product .tf-button.style-1:hover {
+    background: #1a5bb8 !important;
+    transform: translateY(-1px) !important;
+}
+
+.admin .form-edit-product .tf-button.style-2 {
+    background: #6c757d !important;
+    color: white !important;
+    border: none !important;
+}
+
+.admin .form-edit-product .tf-button.style-2:hover {
+    background: #5a6268 !important;
+    transform: translateY(-1px) !important;
 }

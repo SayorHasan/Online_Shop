@@ -86,18 +86,20 @@
                                                     <td>{{$product->quantity}}</td>
                                                     <td>
                                                         <div class="list-icon-function">
-                                                            <a href="#" target="_blank">
+                                                            <a href="#" target="_blank" title="View Product">
                                                                 <div class="item eye">
                                                                     <i class="icon-eye"></i>
                                                                 </div>
                                                             </a>
-                                                            <a href="#">
+                                                            <a href="{{ route('admin.product.edit', $product->id) }}" title="Edit Product">
                                                                 <div class="item edit">
                                                                     <i class="icon-edit-3"></i>
                                                                 </div>
                                                             </a>
-                                                            <form action="#" method="POST">
-                                                                <div class="item text-danger delete">
+                                                            <form action="{{ route('admin.product.delete', $product->id) }}" method="POST" style="display: inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <div class="item text-danger delete" style="cursor: pointer;">
                                                                     <i class="icon-trash-2"></i>
                                                                 </div>
                                                             </form>
@@ -118,3 +120,62 @@
                             </div>
                         </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        // SweetAlert delete confirmation
+        $('.delete').on('click', function(e) {
+            e.preventDefault();
+            var form = $(this).closest('form');
+            var productName = $(this).closest('tr').find('.pname .name a').text();
+            
+            swal({
+                title: "Are you sure?",
+                text: "You want to delete " + productName + "?",
+                type: "warning",
+                buttons: ["No", "Yes"],
+                confirmButtonColor: '#dc3545'
+            }).then(function(result) {
+                if (result) {
+                    form.submit();
+                }
+            });
+        });
+
+        // Add hover effects for action buttons
+        $('.list-icon-function .item').hover(
+            function() {
+                $(this).addClass('hover');
+            },
+            function() {
+                $(this).removeClass('hover');
+            }
+        );
+
+        // Search functionality enhancement
+        $('.form-search input[name="name"]').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            $('.table tbody tr').each(function() {
+                const productName = $(this).find('.pname .name a').text().toLowerCase();
+                const productSku = $(this).find('td:nth-child(5)').text().toLowerCase();
+                
+                if (productName.includes(searchTerm) || productSku.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
+        // Clear search
+        $('.form-search').on('submit', function(e) {
+            e.preventDefault();
+            const searchInput = $(this).find('input[name="name"]');
+            if (searchInput.val().trim() === '') {
+                $('.table tbody tr').show();
+            }
+        });
+    });
+</script>
+@endpush

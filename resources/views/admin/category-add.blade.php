@@ -86,13 +86,37 @@
             const photoInp = $("#myFile");
             const [file] = this.files;
             if(file){
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select an image file');
+                    return;
+                }
+                
+                // Validate file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size should be less than 5MB');
+                    return;
+                }
+                
+                // Show preview
                 $("#imgpreview img").attr('src', URL.createObjectURL(file));
                 $("#imgpreview").show();
+                $("#upload-file").hide();
+            } else {
+                $("#imgpreview").hide();
+                $("#upload-file").show();
             }
         });
 
+        // Clear main image preview when file input is cleared
+        $("#myFile").on("input", function() {
+            if (this.files.length === 0) {
+                $("#imgpreview").hide();
+                $("#upload-file").show();
+            }
+        });
         
-        $("input[name='name']").on("change", function(){
+        $("input[name='name']").on("input", function(){
             $("input[name='slug']").val(StringToSlug($(this).val()));
         });
     });
@@ -107,6 +131,6 @@
         .replace(/\-\-+/g, '-')    
         .replace(/^-+/, '')        
         .replace(/-+$/, '');      
-}
+    }
 </script>
 @endpush

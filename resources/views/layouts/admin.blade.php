@@ -24,7 +24,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/custom.css')}}">
     @stack("styles")
 </head>
-<body class="body">
+<body class="body admin">
     <div id="wrapper">
         <div id="page" class="">
             <div class="layout-wrap">
@@ -37,12 +37,13 @@
 
                 <div class="section-menu-left">
                     <div class="box-logo">
-                        <a href="{{ route('admin.index')}}" id="site-logo-inner">
-                            <img class="" id="logo_header" alt="" src="{{ asset('images/logo/logo.png') }}"
+                        <a href="{{ route('home.index')}}" id="site-logo-inner" title="Click to go to Homepage">
+                            <img class="" id="logo_header" alt="Logo - Click to go to Homepage" src="{{ asset('images/logo/logo.png') }}"
                                 data-light="{{ asset('images/logo/logo.png') }}" data-dark="{{ asset('images/logo/logo.png') }}">
                         </a>
-                        <div class="button-show-hide">
+                        <div class="button-show-hide" title="Toggle Sidebar (Ctrl+B)">
                             <i class="icon-menu-left"></i>
+                            <span class="sidebar-status" style="font-size: 10px; margin-left: 5px; color: #6c757d;">ON</span>
                         </div>
                     </div>
                     <div class="center">
@@ -176,12 +177,12 @@
                     <div class="header-dashboard">
                         <div class="wrap">
                             <div class="header-left">
-                                <a href="index-2.html">
-                                    <img class="" id="logo_header_mobile" alt="" src="{{ asset('images/logo/logo.png') }}"
+                                <a href="{{ route('home.index')}}" title="Click to go to Homepage">
+                                    <img class="" id="logo_header_mobile" alt="Logo - Click to go to Homepage" src="{{ asset('images/logo/logo.png') }}"
                                         data-light="{{ asset('images/logo/logo.png') }}" data-dark="{{ asset('images/logo/logo.png') }}"
                                         data-width="154px" data-height="52px" data-retina="{{ asset('images/logo/logo.png') }}">
                                 </a>
-                                <div class="button-show-hide">
+                                <div class="button-show-hide" title="Toggle Sidebar (Ctrl+B)">
                                     <i class="icon-menu-left"></i>
                                 </div>
 
@@ -396,7 +397,7 @@
                                                     <img src="images/avatar/user-1.png" alt="">
                                                 </span>
                                                 <span class="flex flex-column">
-                                                    <span class="body-title mb-2">Kristin Watson</span>
+                                                    <span class="body-title mb-2">Sayor</span>
                                                     <span class="text-tiny">Admin</span>
                                                 </span>
                                             </span>
@@ -470,6 +471,7 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>    
     <script src="{{ asset('js/apexcharts/apexcharts.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
     <script>
         (function ($) {
 
