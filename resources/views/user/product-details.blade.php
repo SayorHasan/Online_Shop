@@ -60,8 +60,8 @@
                     <div class="product-meta mb-3">
                         <span class="badge bg-primary me-2">{{ $product->category->name }}</span>
                         <span class="badge bg-secondary me-2">{{ $product->brand->name }}</span>
-                        <span class="badge bg-{{ $product->stock_status === 'instock' ? 'success' : 'danger' }}">
-                            {{ ucfirst($product->stock_status) }}
+                        <span class="badge bg-{{ $product->stock_status === 'in_stock' ? 'success' : 'danger' }}">
+                            {{ ucfirst(str_replace('_', ' ', $product->stock_status)) }}
                         </span>
                     </div>
 
@@ -119,9 +119,9 @@
                         <div class="row">
                             <div class="col-md-6 mb-2">
                                 <button class="btn btn-primary btn-lg w-100" onclick="addToCart()" 
-                                        {{ $product->stock_status === 'outofstock' ? 'disabled' : '' }}>
+                                        {{ $product->stock_status === 'out_of_stock' ? 'disabled' : '' }}>
                                     <i class="fa fa-shopping-cart me-2"></i>
-                                    {{ $product->stock_status === 'instock' ? 'Add to Cart' : 'Out of Stock' }}
+                                    {{ $product->stock_status === 'in_stock' ? 'Add to Cart' : 'Out of Stock' }}
                                 </button>
                             </div>
                             <div class="col-md-6 mb-2">
@@ -290,22 +290,69 @@
 
     function addToCart() {
         const quantity = document.getElementById('quantity').value;
+        const productId = {{ $product->id }};
+        const productName = '{{ $product->name }}';
         
-        // Show success message
-        Swal.fire({
-            title: 'Added to Cart!',
-            text: `${quantity} x {{ $product->name }} has been added to your cart.`,
-            icon: 'success',
-            confirmButtonText: 'Continue Shopping',
-            showCancelButton: true,
-            cancelButtonText: 'View Cart'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Continue shopping
+        // Disable button to prevent double-click
+        const btn = document.querySelector('.btn-primary');
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i>Adding...';
+        
+        // AJAX call to add to cart
+        fetch('{{ route("cart.add") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: parseInt(quantity)
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success message
+                Swal.fire({
+                    title: 'Added to Cart!',
+                    text: `${quantity} x ${productName} has been added to your cart.`,
+                    icon: 'success',
+                    confirmButtonText: 'Continue Shopping',
+                    showCancelButton: true,
+                    cancelButtonText: 'View Cart'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Continue shopping
+                        window.location.href = '{{ route("user.shop") }}';
+                    } else {
+                        // View cart
+                        window.location.href = '{{ route("user.cart") }}';
+                    }
+                });
             } else {
-                // View cart (implement cart functionality)
-                console.log('View cart clicked');
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'An error occurred while adding to cart',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        })
+        .finally(() => {
+            // Re-enable button
+            btn.disabled = false;
+            btn.innerHTML = originalText;
         });
     }
 

@@ -147,8 +147,8 @@
                             <div class="body-title mb-10">Stock</div>
                             <div class="select mb-10">
                                 <select class="" name="stock_status">
-                                    <option value="instock">InStock</option>
-                                    <option value="outofstock">Out of Stock</option>                                                        
+                                    <option value="in_stock">In Stock</option>
+                                    <option value="out_of_stock">Out of Stock</option>                                                        
                                 </select>
                             </div>                                                
                         </fieldset>

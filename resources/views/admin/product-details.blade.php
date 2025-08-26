@@ -2,547 +2,357 @@
 
 @section('content')
 <style>
-    .product-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 25px;
-        border-radius: 12px;
-        margin-bottom: 25px;
+    /* Shop View Design for Product Details */
+    .shop-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 4rem;
+        border-radius: 25px;
+        margin-bottom: 4rem;
+        border: 2px solid #dee2e6;
     }
-    .product-stats {
-        display: flex;
-        gap: 20px;
-        margin-top: 20px;
+    
+    .page-title {
+        font-size: 4.5rem;
+        font-weight: 900;
+        color: #212529;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
     }
-    .stat-item {
-        text-align: center;
-        flex: 1;
-        background: rgba(255,255,255,0.1);
-        padding: 15px;
-        border-radius: 8px;
+    
+    .page-subtitle {
+        color: #6c757d;
+        font-size: 1.8rem;
+        margin-bottom: 0;
+        font-weight: 500;
     }
-    .stat-number {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-    .stat-label {
-        font-size: 12px;
-        opacity: 0.9;
-    }
-    .info-card {
+    
+    .product-details-section {
         background: white;
-        border: 1px solid #e9ecef;
-        border-radius: 10px;
-        margin-bottom: 25px;
+        border: 2px solid #dee2e6;
+        border-radius: 25px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+    }
+    
+    .product-image-container {
+        border-radius: 20px;
         overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
     }
-    .info-card-header {
-        background: #f8f9fa;
-        padding: 15px 20px;
-        border-bottom: 1px solid #e9ecef;
-    }
-    .info-card-title {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #495057;
-    }
-    .info-card-body {
-        padding: 20px;
-    }
-    .product-image-main {
-        width: 100%;
-        height: 400px;
-        object-fit: cover;
-        border-radius: 8px;
-        border: 2px solid #e9ecef;
-    }
+    
     .main-image-wrapper {
-        width: 100%;
-        height: 400px;
-        border-radius: 8px;
+        position: relative;
+        border-radius: 20px;
         overflow: hidden;
-        border: 2px solid #e9ecef;
         background: #f8f9fa;
     }
-    .main-image-wrapper img {
+    
+    .main-image {
         width: 100%;
-        height: 100%;
+        height: 500px;
         object-fit: cover;
         transition: transform 0.3s ease;
     }
-    .main-image-wrapper:hover img {
+    
+    .main-image:hover {
         transform: scale(1.05);
     }
+    
+    .product-info-card {
+        background: white;
+        border: 2px solid #dee2e6;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        font-weight: 700;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        font-size: 0.9rem;
+    }
+    
+    .info-value {
+        font-weight: 600;
+        color: #212529;
+        font-size: 1.1rem;
+    }
+    
+    .btn {
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 1rem 2rem;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        font-size: 1rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .btn-primary {
+        background: #212529;
+        border-color: #212529;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background: #000;
+        border-color: #000;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        color: white;
+    }
+    
+    .btn-warning {
+        background: #ffc107;
+        border-color: #ffc107;
+        color: #212529;
+    }
+    
+    .btn-warning:hover {
+        background: #e0a800;
+        border-color: #e0a800;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        color: #212529;
+    }
+    
+    .btn-danger {
+        background: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+    
+    .btn-danger:hover {
+        background: #c82333;
+        border-color: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        color: white;
+    }
+    
+    .btn-info {
+        background: #17a2b8;
+        border-color: #17a2b8;
+        color: white;
+    }
+    
+    .btn-info:hover {
+        background: #138496;
+        border-color: #138496;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        color: white;
+    }
+    
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+        background: white;
+    }
+    
+    .btn-outline-secondary:hover {
+        background: #6c757d;
+        border-color: #6c757d;
+        color: white;
+        transform: translateY(-1px);
+    }
+    
+    .quick-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+    
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+    
+    .status-in_stock {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-out_of_stock {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .status-featured {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
     .gallery-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 15px;
-        margin-top: 15px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
     }
+    
     .gallery-item {
         position: relative;
-        border-radius: 8px;
+        border-radius: 15px;
         overflow: hidden;
         border: 2px solid #e9ecef;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
+    
     .gallery-item:hover {
-        border-color: #007bff;
+        border-color: #212529;
         transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
+    
     .gallery-image {
         width: 100%;
-        height: 120px;
+        height: 150px;
         object-fit: cover;
-    }
-    .gallery-remove {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background: rgba(220, 53, 69, 0.9);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        cursor: pointer;
-    }
-    .nav-tabs .nav-link {
-        border: none;
-        border-bottom: 3px solid transparent;
-        color: #6c757d;
-        font-weight: 500;
-        padding: 12px 20px;
-    }
-    .nav-tabs .nav-link.active {
-        border-bottom: 3px solid #007bff;
-        color: #007bff;
-        background: none;
-    }
-    .tab-content {
-        padding: 20px 0;
-    }
-    .info-table {
-        margin-bottom: 0;
-    }
-    .info-table td {
-        padding: 12px 0;
-        border: none;
-        vertical-align: top;
-    }
-    .info-table td:first-child {
-        font-weight: 600;
-        color: #495057;
-        width: 40%;
-    }
-    .stock-alert {
-        margin-top: 20px;
-    }
-    .stock-alert .alert {
-        border-radius: 8px;
-        border: none;
-        padding: 15px 20px;
-    }
-    .related-products-table {
-        margin-bottom: 0;
-    }
-    .related-products-table th {
-        background: #f8f9fa;
-        border: none;
-        padding: 12px;
-        font-weight: 600;
-        color: #495057;
-    }
-    .related-products-table td {
-        padding: 12px;
-        border: none;
-        vertical-align: middle;
-    }
-    .quick-actions {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-    }
-    .btn-quick-action {
-        padding: 15px 20px;
-        border-radius: 8px;
-        font-weight: 500;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        transition: all 0.2s ease;
-    }
-    .btn-quick-action:hover {
-        transform: translateY(-2px);
-        text-decoration: none;
-    }
-    .no-gallery {
-        text-align: center;
-        padding: 40px 20px;
-        color: #6c757d;
-        background: #f8f9fa;
-        border-radius: 8px;
-    }
-    .no-gallery i {
-        font-size: 3rem;
-        margin-bottom: 15px;
-        opacity: 0.3;
     }
 </style>
 
-<div class="section-content-right">
-    <!-- Product Header -->
-    <div class="product-header">
+<div class="container-fluid">
+    <!-- Shop Header -->
+    <section class="shop-header">
         <div class="d-flex justify-content-between align-items-start">
             <div>
-                <h2 class="mb-2">{{ $product->name }}</h2>
-                <p class="mb-0 opacity-75">{{ $product->short_description }}</p>
+                <h1 class="page-title">Product Details</h1>
+                <p class="page-subtitle">View detailed information about {{ $product->name }}</p>
             </div>
-            <div class="d-flex gap-2">
-                <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-light">
-                    <i class="icon-edit me-2"></i>Edit Product
-                </a>
-                <a href="{{ route('admin.products') }}" class="btn btn-outline-light">
+            <div class="d-flex align-items-center gap-3">
+                <a href="{{ route('admin.products') }}" class="btn btn-outline-secondary">
                     <i class="icon-arrow-left me-2"></i>Back to Products
                 </a>
             </div>
         </div>
-        
-        <div class="product-stats">
-            <div class="stat-item">
-                <div class="stat-number">{{ $product->quantity }}</div>
-                <div class="stat-label">Stock Quantity</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">${{ number_format($product->regular_price, 2) }}</div>
-                <div class="stat-label">Regular Price</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">{{ $product->featured ? 'Yes' : 'No' }}</div>
-                <div class="stat-label">Featured</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">{{ ucfirst($product->stock_status) }}</div>
-                <div class="stat-label">Stock Status</div>
-            </div>
-        </div>
-    </div>
+    </section>
 
-    <!-- Product Images Section -->
-    <div class="info-card">
-        <div class="info-card-header">
-            <h5 class="info-card-title">Product Images</h5>
-        </div>
-        <div class="info-card-body">
-            <div class="row">
-                <!-- Main Image -->
-                <div class="col-md-6 mb-4">
-                    <h6 class="mb-3">Main Product Image</h6>
+    <!-- Product Details Section -->
+    <div class="product-details-section">
+        <div class="row">
+            <!-- Product Images -->
+            <div class="col-lg-6 mb-4">
+                <div class="product-image-container">
                     @if($product->image)
                         <div class="main-image-wrapper">
                             <img src="{{ asset('uploads/products/'.$product->image) }}" 
                                  alt="{{ $product->name }}" 
-                                 class="product-image-main">
+                                 class="main-image">
                         </div>
                     @else
-                        <div class="no-gallery">
-                            <i class="icon-image"></i>
-                            <p>No main image available</p>
+                        <div class="text-center py-5">
+                            <i class="icon-image text-muted" style="font-size: 4rem;"></i>
+                            <p class="mt-3">No main image available</p>
                         </div>
                     @endif
                 </div>
-
-                <!-- Gallery Images -->
-                <div class="col-md-6 mb-4">
-                    <h6 class="mb-3">Gallery Images</h6>
-                    @if($product->images && count($product->gallery) > 0)
-                        <div class="gallery-grid">
-                            @foreach($product->gallery as $galleryImage)
-                            <div class="gallery-item">
-                                <img src="{{ asset('uploads/products/thumbnails/'.$galleryImage) }}" 
-                                     alt="{{ $product->name }}" 
-                                     class="gallery-image">
-                            </div>
-                            @endforeach
+                
+                @if($product->images && count($product->gallery) > 0)
+                    <h6 class="mt-4 mb-3">Gallery Images</h6>
+                    <div class="gallery-grid">
+                        @foreach($product->gallery as $galleryImage)
+                        <div class="gallery-item">
+                            <img src="{{ asset('uploads/products/thumbnails/'.$galleryImage) }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="gallery-image">
                         </div>
-                    @else
-                        <div class="no-gallery">
-                            <i class="icon-images"></i>
-                            <p>No gallery images available</p>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product Information Tabs -->
-    <div class="info-card">
-        <div class="info-card-header">
-            <h5 class="info-card-title">Product Information</h5>
-        </div>
-        <div class="info-card-body">
-            <ul class="nav nav-tabs" id="productTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
-                        <i class="icon-info me-2"></i>Basic Details
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pricing-tab" data-bs-toggle="tab" data-bs-target="#pricing" type="button" role="tab">
-                        <i class="icon-dollar-sign me-2"></i>Pricing & Stock
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="seo-tab" data-bs-toggle="tab" data-bs-target="#seo" type="button" role="tab">
-                        <i class="icon-search me-2"></i>SEO & Meta
-                    </button>
-                </li>
-            </ul>
-            
-            <div class="tab-content" id="productTabsContent">
-                <!-- Basic Details Tab -->
-                <div class="tab-pane fade show active" id="details" role="tabpanel">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="table info-table">
-                                <tbody>
-                                    <tr>
-                                        <td>Product Name:</td>
-                                        <td><strong>{{ $product->name }}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Slug:</td>
-                                        <td><code class="bg-light px-2 py-1 rounded">{{ $product->slug }}</code></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Category:</td>
-                                        <td><span class="badge bg-info">{{ $product->category->name ?? 'N/A' }}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Brand:</td>
-                                        <td><span class="badge bg-secondary">{{ $product->brand->name ?? 'N/A' }}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>SKU:</td>
-                                        <td><code class="bg-light px-2 py-1 rounded">{{ $product->SKU }}</code></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <h6 class="mb-3">Description</h6>
-                            <div class="bg-light p-3 rounded">
-                                <p class="mb-0">{{ $product->description }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pricing & Stock Tab -->
-                <div class="tab-pane fade" id="pricing" role="tabpanel">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="table info-table">
-                                <tbody>
-                                    <tr>
-                                        <td>Regular Price:</td>
-                                        <td><span class="text-primary fw-bold">${{ number_format($product->regular_price, 2) }}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sale Price:</td>
-                                        <td>
-                                            @if($product->sale_price && $product->sale_price < $product->regular_price)
-                                                <span class="text-success fw-bold">${{ number_format($product->sale_price, 2) }}</span>
-                                                <span class="badge bg-success ms-2">
-                                                    {{ round((($product->regular_price - $product->sale_price) / $product->regular_price) * 100) }}% OFF
-                                                </span>
-                                            @else
-                                                <span class="text-muted">Not set</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Stock Status:</td>
-                                        <td>
-                                            <span class="badge bg-{{ $product->stock_status === 'in_stock' ? 'success' : 'danger' }}">
-                                                {{ ucfirst($product->stock_status) }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Quantity:</td>
-                                        <td><strong>{{ $product->quantity }}</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Featured:</td>
-                                        <td>
-                                            <span class="badge bg-{{ $product->featured ? 'warning' : 'secondary' }}">
-                                                {{ $product->featured ? 'Yes' : 'No' }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="stock-alert">
-                                @if($product->stock_status === 'out_of_stock')
-                                    <div class="alert alert-danger">
-                                        <i class="icon-alert-triangle me-2"></i>
-                                        <strong>Out of Stock!</strong> This product is currently unavailable.
-                                    </div>
-                                @elseif($product->quantity <= 5 && $product->quantity > 0)
-                                    <div class="alert alert-warning">
-                                        <i class="icon-alert-circle me-2"></i>
-                                        <strong>Low Stock!</strong> Only {{ $product->quantity }} items remaining.
-                                    </div>
-                                @else
-                                    <div class="alert alert-success">
-                                        <i class="icon-check-circle me-2"></i>
-                                        <strong>In Stock!</strong> {{ $product->quantity }} items available.
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SEO & Meta Tab -->
-                <div class="tab-pane fade" id="seo" role="tabpanel">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="table info-table">
-                                <tbody>
-                                    <tr>
-                                        <td>Created:</td>
-                                        <td>{{ $product->created_at->format('M d, Y H:i') }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Last Updated:</td>
-                                        <td>{{ $product->updated_at->format('M d, Y H:i') }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Product ID:</td>
-                                        <td><code class="bg-light px-2 py-1 rounded">#{{ $product->id }}</code></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <h6 class="mb-3">SEO Information</h6>
-                            <div class="bg-light p-3 rounded">
-                                <p class="mb-2"><strong>Product slug:</strong> <code>{{ $product->slug }}</code></p>
-                                <p class="mb-2"><strong>URL:</strong> <code>/product/{{ $product->slug }}</code></p>
-                                <p class="mb-0"><strong>Meta description:</strong> {{ Str::limit($product->short_description, 100) }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Related Products -->
-    @if($relatedProducts->count() > 0)
-    <div class="info-card">
-        <div class="info-card-header">
-            <h5 class="info-card-title">Related Products (Same Category)</h5>
-        </div>
-        <div class="info-card-body">
-            <div class="table-responsive">
-                <table class="table related-products-table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Brand</th>
-                            <th>Price</th>
-                            <th>Stock</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($relatedProducts as $relatedProduct)
-                        <tr>
-                            <td>
-                                @if($relatedProduct->image)
-                                    <img src="{{ asset('uploads/products/thumbnails/'.$relatedProduct->image) }}" 
-                                         alt="{{ $relatedProduct->name }}" 
-                                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
-                                @else
-                                    <div class="bg-light d-flex align-items-center justify-content-center rounded"
-                                         style="width: 50px; height: 50px;">
-                                        <i class="icon-image text-muted"></i>
-                                    </div>
-                                @endif
-                            </td>
-                            <td>
-                                <strong>{{ $relatedProduct->name }}</strong>
-                                <br><small class="text-muted">{{ $relatedProduct->category->name }}</small>
-                            </td>
-                            <td>{{ $relatedProduct->brand->name }}</td>
-                            <td>
-                                @if($relatedProduct->sale_price && $relatedProduct->sale_price < $relatedProduct->regular_price)
-                                    <span class="text-danger">${{ number_format($relatedProduct->sale_price, 2) }}</span>
-                                    <br><small class="text-muted text-decoration-line-through">${{ number_format($relatedProduct->regular_price, 2) }}</small>
-                                @else
-                                    <span class="text-primary">${{ number_format($relatedProduct->regular_price, 2) }}</span>
-                                @endif
-                            </td>
-                            <td>
-                                <span class="badge bg-{{ $relatedProduct->stock_status === 'in_stock' ? 'success' : 'danger' }}">
-                                    {{ ucfirst($relatedProduct->stock_status) }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <a href="{{ route('admin.product.details', $relatedProduct->id) }}" 
-                                       class="btn btn-sm btn-outline-primary">
-                                        <i class="icon-eye"></i>
-                                    </a>
-                                    <a href="{{ route('admin.product.edit', $relatedProduct->id) }}" 
-                                       class="btn btn-sm btn-outline-warning">
-                                        <i class="icon-edit"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
                         @endforeach
-                    </tbody>
-                </table>
+                    </div>
+                @endif
             </div>
-        </div>
-    </div>
-    @endif
 
-    <!-- Quick Actions -->
-    <div class="info-card">
-        <div class="info-card-header">
-            <h5 class="info-card-title">Quick Actions</h5>
-        </div>
-        <div class="info-card-body">
-            <div class="quick-actions">
-                <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-primary btn-quick-action">
-                    <i class="icon-edit"></i>Edit Product
-                </a>
-                <button class="btn btn-warning btn-quick-action" onclick="duplicateProduct()">
-                    <i class="icon-copy"></i>Duplicate Product
-                </button>
-                <a href="{{ route('user.product.details', $product->id) }}" target="_blank" class="btn btn-info btn-quick-action">
-                    <i class="icon-external-link"></i>View in Shop
-                </a>
-                <button class="btn btn-danger btn-quick-action" onclick="deleteProduct()">
-                    <i class="icon-trash"></i>Delete Product
-                </button>
+            <!-- Product Information -->
+            <div class="col-lg-6">
+                <div class="product-info-card">
+                    <h2 class="mb-4">{{ $product->name }}</h2>
+                    
+                    <div class="info-row">
+                        <span class="info-label">Category</span>
+                        <span class="info-value">{{ $product->category->name ?? 'N/A' }}</span>
+                    </div>
+                    
+                    <div class="info-row">
+                        <span class="info-label">Brand</span>
+                        <span class="info-value">{{ $product->brand->name ?? 'N/A' }}</span>
+                    </div>
+                    
+                    <div class="info-row">
+                        <span class="info-label">SKU</span>
+                        <span class="info-value">{{ $product->SKU }}</span>
+                    </div>
+                    
+                    <div class="info-row">
+                        <span class="info-label">Regular Price</span>
+                        <span class="info-value">${{ number_format($product->regular_price, 2) }}</span>
+                    </div>
+                    
+                    @if($product->sale_price && $product->sale_price < $product->regular_price)
+                    <div class="info-row">
+                        <span class="info-label">Sale Price</span>
+                        <span class="info-value text-danger">${{ number_format($product->sale_price, 2) }}</span>
+                    </div>
+                    @endif
+                    
+                    <div class="info-row">
+                        <span class="info-label">Stock Status</span>
+                        <span class="status-badge status-{{ $product->stock_status }}">
+                            {{ ucfirst(str_replace('_', ' ', $product->stock_status)) }}
+                        </span>
+                    </div>
+                    
+                    <div class="info-row">
+                        <span class="info-label">Quantity</span>
+                        <span class="info-value">{{ $product->quantity }}</span>
+                    </div>
+                    
+                    <div class="info-row">
+                        <span class="info-label">Featured</span>
+                        <span class="info-value">{{ $product->featured ? 'Yes' : 'No' }}</span>
+                    </div>
+                    
+                    <div class="info-row">
+                        <span class="info-label">Description</span>
+                        <span class="info-value">{{ $product->description }}</span>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-warning">
+                            <i class="icon-edit"></i>Edit Product
+                        </a>
+                        <a href="{{ route('user.shop') }}?category={{ $product->category_id }}&highlight={{ $product->id }}" 
+                           target="_blank" class="btn btn-info">
+                            <i class="icon-external-link"></i>View in Shop
+                        </a>
+                        <button class="btn btn-danger" onclick="deleteProduct()">
+                            <i class="icon-trash"></i>Delete Product
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -574,30 +384,16 @@
 
 @push('scripts')
 <script>
-    function duplicateProduct() {
-        Swal.fire({
-            title: 'Duplicate Product?',
-            text: 'This will create a copy of the current product.',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, Duplicate',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Implement duplication logic
-                Swal.fire('Success!', 'Product duplicated successfully.', 'success');
-            }
-        });
-    }
-
     function deleteProduct() {
         // Set modal content
         document.getElementById('productNameToDelete').textContent = '{{ $product->name }}';
         document.getElementById('deleteForm').action = '{{ route("admin.product.delete", $product->id) }}';
         
-        // Show modal
-        $('#deleteModal').modal('show');
+        // Show modal using Bootstrap 5
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show();
     }
 </script>
 @endpush
+
 @endsection

@@ -76,11 +76,6 @@
                                                 <div class="text">Products</div>
                                             </a>
                                         </li>
-                                        <li class="sub-menu-item">
-                                            <a href="{{route('admin.shop')}}" class="">
-                                                <div class="text">Shop View</div>
-                                            </a>
-                                        </li>
                                     </ul>
                                 </li>
                                 <li class="menu-item has-children">
@@ -224,6 +219,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="section-content-right">
@@ -523,8 +519,8 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-select.min.js') }}"></script>   
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>    
     <script src="{{ asset('js/apexcharts/apexcharts.js') }}"></script>
@@ -628,6 +624,7 @@
             jQuery(window).on("resize", function () { });
         })(jQuery);
     </script>
+    
     @stack("scripts")
 </body>
     

@@ -523,37 +523,59 @@ public function GenerateProductThumbnailImage($image,$imageName){
     {
         $query = Product::with(['category', 'brand']);
 
-        // Apply search filter
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('SKU', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
-            });
-        }
-
-        // Apply category filter
+        // Apply category filter if specified
         if ($request->filled('category')) {
             $query->where('category_id', $request->category);
         }
 
-        // Apply brand filter
+        // Apply brand filter if specified
         if ($request->filled('brand')) {
             $query->where('brand_id', $request->brand);
         }
 
-        // Apply stock status filter
-        if ($request->filled('stock')) {
-            $query->where('stock_status', $request->stock);
+        // Apply search filter if specified
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('SKU', 'like', "%{$search}%");
+            });
         }
 
-        $products = $query->orderBy('created_at', 'DESC')->paginate(12);
+        // Apply stock status filter if specified
+        if ($request->filled('stock_status')) {
+            $query->where('stock_status', $request->stock_status);
+        }
+
+        // Apply featured filter if specified
+        if ($request->filled('featured')) {
+            $query->where('featured', $request->featured);
+        }
+
+        $products = $query->orderBy('featured', 'DESC')
+                         ->orderBy('created_at', 'DESC')
+                         ->paginate(12);
         
-        $categories = Category::orderBy('name')->get();
-        $brands = Brand::orderBy('name')->get();
+        // Get categories with product counts
+        $categories = Category::withCount('products')->orderBy('name')->get();
         
-        return view('admin.shop', compact('products', 'categories', 'brands'));
+        // Get brands with product counts
+        $brands = Brand::withCount('products')->orderBy('name')->get();
+        
+        // Get shop statistics
+        $shopStats = [
+            'total_products' => Product::count(),
+            'in_stock_products' => Product::where('stock_status', 'in_stock')->count(),
+            'out_of_stock_products' => Product::where('stock_status', 'out_of_stock')->count(),
+            'featured_products' => Product::where('featured', 1)->count(),
+            'total_categories' => Category::count(),
+            'total_brands' => Brand::count(),
+            'low_stock_products' => Product::where('quantity', '<=', 5)->where('quantity', '>', 0)->count(),
+            'new_arrivals' => Product::where('created_at', '>=', now()->subDays(30))->count()
+        ];
+        
+        return view('admin.shop', compact('products', 'categories', 'brands', 'shopStats'));
     }
 
     public function productDetails($id)

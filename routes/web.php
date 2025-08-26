@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CartController;
 use App\Http\Middleware\AuthAdmin;
 
 
@@ -13,10 +14,39 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
+// Public product viewing route (no authentication required)
+Route::get('/product/{id}/view', [UserController::class, 'publicProductDetails'])->name('public.product.details');
+
+// Test route for debugging
+Route::get('/test-product/{id}', function($id) {
+    $product = \App\Models\Product::find($id);
+    if ($product) {
+        return response()->json([
+            'success' => true,
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'stock_status' => $product->stock_status,
+                'category' => $product->category ? $product->category->name : 'N/A',
+                'brand' => $product->brand ? $product->brand->name : 'N/A'
+            ]
+        ]);
+    }
+    return response()->json(['success' => false, 'message' => 'Product not found']);
+});
+
 Route::middleware(['auth'])->group(function(){
     Route::get('/account.dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/shop', [UserController::class, 'shop'])->name('user.shop');
     Route::get('/product/{id}', [UserController::class, 'productDetails'])->name('user.product.details');
+    
+    // Cart routes
+    Route::get('/cart', [CartController::class, 'index'])->name('user.cart');
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::put('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
+    Route::delete('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::delete('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+    Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
 });
 
 Route::middleware(['auth',AuthAdmin::class])->group(function(){
