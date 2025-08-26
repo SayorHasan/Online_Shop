@@ -53,6 +53,7 @@
                                             <div class="upload-image flex-grow">
                                                 <div class="item" id="imgpreview" style="display:none">
                                                     <img src="upload-1.html" class="effect8" alt="">
+                                                    <button type="button" class="remove-main-image" onclick="removeMainImage()" style="position: absolute; top: -5px; right: -5px; background: red; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 14px;">×</button>
                                                 </div>
                                                 <div id="upload-file" class="item up-load">
                                                     <label class="uploadfile" for="myFile">
@@ -120,6 +121,12 @@
             $("input[name='slug']").val(StringToSlug($(this).val()));
         });
     });
+
+    function removeMainImage() {
+        $("#imgpreview").hide();
+        $("#upload-file").show();
+        $("#myFile").val(''); // Clear the file input
+    }
 
     function StringToSlug(text) {
         return text

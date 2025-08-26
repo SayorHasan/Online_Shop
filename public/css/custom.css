@@ -1009,18 +1009,48 @@ body {
     transform: scale(1.1) !important;
 }
 
-/* Product edit form image preview styling */
+/* Add form image remove button styling */
+.admin .remove-main-image {
+    position: absolute !important;
+    top: -5px !important;
+    right: -5px !important;
+    background: #dc3545 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 20px !important;
+    height: 20px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    z-index: 10 !important;
+    font-weight: bold !important;
+}
+
+.admin .remove-main-image:hover {
+    background: #c82333 !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+}
+
+/* Ensure image preview containers are positioned relatively */
 .admin #imgpreview {
     position: relative !important;
 }
 
+.admin .upload-image {
+    position: relative !important;
+}
+
+/* Add form image preview styling */
 .admin #imgpreview img {
     border-radius: 8px !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-}
-
-.admin .upload-image {
-    position: relative !important;
+    max-width: 100% !important;
+    height: auto !important;
 }
 
 /* Product edit form overall styling */
@@ -1090,4 +1120,58 @@ body {
 .admin .form-edit-product .tf-button.style-2:hover {
     background: #5a6268 !important;
     transform: translateY(-1px) !important;
+}
+
+/* Add form overall improvements */
+.admin .form-add-product,
+.admin .form-add-brand,
+.admin .form-add-category {
+    position: relative !important;
+}
+
+.admin .upload-image .item {
+    position: relative !important;
+    transition: all 0.3s ease !important;
+}
+
+.admin .upload-image .item:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.admin .uploadfile {
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+.admin .uploadfile:hover {
+    background-color: #f8f9fa !important;
+    border-color: #2377FC !important;
+}
+
+/* File input styling */
+.admin input[type="file"] {
+    cursor: pointer !important;
+}
+
+.admin input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden !important;
+}
+
+.admin input[type="file"]::before {
+    content: '' !important;
+    display: none !important;
+}
+
+/* Image preview container improvements */
+.admin #imgpreview {
+    border: 2px solid #e9ecef !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    background: #f8f9fa !important;
+}
+
+.admin #imgpreview:hover {
+    border-color: #2377FC !important;
+    box-shadow: 0 4px 12px rgba(35, 119, 252, 0.15) !important;
 }
