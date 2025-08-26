@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CouponController;
 use App\Http\Middleware\AuthAdmin;
 
 
@@ -47,6 +48,12 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::delete('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
     Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+    
+    // Coupon routes
+    Route::get('/coupons', [CouponController::class, 'index'])->name('user.coupons');
+    Route::post('/coupons/apply', [CouponController::class, 'apply'])->name('coupons.apply');
+    Route::post('/coupons/remove', [CouponController::class, 'remove'])->name('coupons.remove');
+    Route::post('/coupons/validate', [CouponController::class, 'validateCoupon'])->name('coupons.validate');
 });
 
 Route::middleware(['auth',AuthAdmin::class])->group(function(){
@@ -75,5 +82,13 @@ Route::middleware(['auth',AuthAdmin::class])->group(function(){
     Route::get('/admin/shop',[AdminController::class,'shop'])->name('admin.shop');
     Route::get('/admin/product/{id}',[AdminController::class,'productDetails'])->name('admin.product.details');
 
+    // Coupon routes
+    Route::get('/admin/coupons',[AdminController::class,'coupons'])->name('admin.coupons');
+    Route::get('/admin/coupon/add',[AdminController::class,'add_coupon'])->name('admin.coupon.add');
+    Route::post('/admin/coupon/store',[AdminController::class,'store_coupon'])->name('admin.coupon.store');
+    Route::get('/admin/coupon/{id}/edit',[AdminController::class,'edit_coupon'])->name('admin.coupon.edit');
+    Route::put('/admin/coupon/update',[AdminController::class,'update_coupon'])->name('admin.coupon.update');
+    Route::delete('/admin/coupon/{id}/delete',[AdminController::class,'delete_coupon'])->name('admin.coupon.delete');
+    Route::get('/admin/coupon/{id}/toggle-status',[AdminController::class,'toggle_coupon_status'])->name('admin.coupon.toggle-status');
     
 });

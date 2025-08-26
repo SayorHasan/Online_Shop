@@ -323,6 +323,9 @@
               <a href="{{ route('user.cart') }}" class="navigation__link">Cart</a>
             </li>
             <li class="navigation__item">
+              <a href="{{ route('user.coupons') }}" class="navigation__link">Coupons</a>
+            </li>
+            <li class="navigation__item">
               <a href="about.html" class="navigation__link">About</a>
             </li>
             <li class="navigation__item">

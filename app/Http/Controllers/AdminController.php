@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Coupon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
@@ -593,7 +594,94 @@ public function GenerateProductThumbnailImage($image,$imageName){
         return view('admin.product-details', compact('product', 'relatedProducts'));
     }
 
+    // Coupon Methods
+    public function coupons()
+    {
+        $coupons = Coupon::orderBy('created_at', 'DESC')->paginate(10);
+        return view('admin.coupons', compact('coupons'));
+    }
 
+    public function add_coupon()
+    {
+        return view('admin.coupon-add');
+    }
 
+    public function store_coupon(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|unique:coupons,code|string|max:50',
+            'type' => 'required|in:fixed,percent',
+            'value' => 'required|numeric|min:0',
+            'cart_value' => 'required|numeric|min:0',
+            'max_uses' => 'nullable|integer|min:1',
+            'expiry_date' => 'required|date|after:today',
+        ]);
 
+        if ($request->type === 'percent' && $request->value > 100) {
+            return redirect()->back()->withErrors(['value' => 'Percentage value cannot exceed 100%']);
+        }
+
+        Coupon::create([
+            'code' => strtoupper($request->code),
+            'type' => $request->type,
+            'value' => $request->value,
+            'cart_value' => $request->cart_value,
+            'max_uses' => $request->max_uses,
+            'expiry_date' => $request->expiry_date,
+            'is_active' => true,
+        ]);
+
+        return redirect()->route('admin.coupons')->with('status', 'Coupon has been added successfully!');
+    }
+
+    public function edit_coupon($id)
+    {
+        $coupon = Coupon::findOrFail($id);
+        return view('admin.coupon-edit', compact('coupon'));
+    }
+
+    public function update_coupon(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:coupons,id',
+            'code' => 'required|string|max:50|unique:coupons,code,' . $request->id,
+            'type' => 'required|in:fixed,percent',
+            'value' => 'required|numeric|min:0',
+            'cart_value' => 'required|numeric|min:0',
+            'max_uses' => 'nullable|integer|min:1',
+            'expiry_date' => 'required|date|after:today',
+        ]);
+
+        if ($request->type === 'percent' && $request->value > 100) {
+            return redirect()->back()->withErrors(['value' => 'Percentage value cannot exceed 100%']);
+        }
+
+        $coupon = Coupon::findOrFail($request->id);
+        $coupon->update([
+            'code' => strtoupper($request->code),
+            'type' => $request->type,
+            'value' => $request->value,
+            'cart_value' => $request->cart_value,
+            'max_uses' => $request->max_uses,
+            'expiry_date' => $request->expiry_date,
+        ]);
+
+        return redirect()->route('admin.coupons')->with('status', 'Coupon has been updated successfully!');
+    }
+
+    public function delete_coupon($id)
+    {
+        $coupon = Coupon::findOrFail($id);
+        $coupon->delete();
+        return redirect()->route('admin.coupons')->with('status', 'Coupon has been deleted successfully!');
+    }
+
+    public function toggle_coupon_status($id)
+    {
+        $coupon = Coupon::findOrFail($id);
+        $coupon->update(['is_active' => !$coupon->is_active]);
+        
+        $status = $coupon->is_active ? 'activated' : 'deactivated';
+        return redirect()->route('admin.coupons')->with('status', "Coupon has been {$status} successfully!");
+    }
 }

@@ -414,11 +414,12 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="position-relative">
-                                    <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code">
-                                    <button class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit">
+                                    <input class="form-control" type="text" id="couponCode" placeholder="Enter coupon code" value="{{ session('applied_coupon_code', '') }}">
+                                    <button class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="button" onclick="applyCoupon()">
                                         APPLY COUPON
                                     </button>
                                 </div>
+                                <div id="couponMessage" class="mt-2" style="display: none;"></div>
                             </div>
                             <div class="col-md-4 text-end">
                                 <button class="btn btn-light" type="button" onclick="clearCart()">CLEAR CART</button>
@@ -445,9 +446,20 @@
                                         <th>VAT</th>
                                         <td>${{ number_format($tax, 2) }}</td>
                                     </tr>
+                                    @if(session('applied_coupon'))
+                                    <tr class="text-success">
+                                        <th>Discount ({{ session('applied_coupon_code') }})</th>
+                                        <td>
+                                            -${{ number_format(session('applied_coupon_discount', 0), 2) }}
+                                            <button class="btn btn-sm btn-outline-danger ms-2" onclick="removeCoupon()" title="Remove coupon">
+                                                <i class="icon-x"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    @endif
                                     <tr class="cart-total">
                                         <th>Total</th>
-                                        <td>${{ number_format($total, 2) }}</td>
+                                        <td>${{ number_format(session('applied_coupon') ? session('applied_coupon_final_total', $total) : $total, 2) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -527,6 +539,85 @@
                 alert('An error occurred while removing item');
             });
         }
+    }
+    
+    function applyCoupon() {
+        const couponCode = document.getElementById('couponCode').value.trim();
+        const cartTotal = {{ $total ?? 0 }};
+        
+        console.log('Applying coupon:', couponCode, 'Cart total:', cartTotal);
+        
+        if (!couponCode) {
+            showCouponMessage('Please enter a coupon code', 'danger');
+            return;
+        }
+        
+        if (cartTotal <= 0) {
+            showCouponMessage('Cart total must be greater than 0', 'danger');
+            return;
+        }
+        
+        fetch('{{ route("coupons.apply") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                coupon_code: couponCode,
+                cart_total: cartTotal
+            })
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            if (data.success) {
+                showCouponMessage(data.message, 'success');
+                // Store coupon info in session via page reload
+                location.reload();
+            } else {
+                showCouponMessage(data.message, 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showCouponMessage('An error occurred while applying coupon', 'danger');
+        });
+    }
+    
+    function showCouponMessage(message, type) {
+        const messageDiv = document.getElementById('couponMessage');
+        messageDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+        messageDiv.style.display = 'block';
+        
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 5000);
+    }
+    
+    function removeCoupon() {
+        fetch('{{ route("coupons.remove") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while removing coupon');
+        });
     }
     
     function clearCart() {
