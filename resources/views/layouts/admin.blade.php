@@ -170,6 +170,49 @@
                                 </li>
                             </ul>
                         </div>
+                        
+                        <!-- Quick Stats Section -->
+                        <div class="center-item">
+                            <div class="center-heading">Quick Stats</div>
+                            <div class="quick-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="icon-shopping-bag"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">{{ \App\Models\Product::count() }}</div>
+                                        <div class="stat-label">Products</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="icon-tag"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">{{ \App\Models\Category::count() }}</div>
+                                        <div class="stat-label">Categories</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="icon-award"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">{{ \App\Models\Brand::count() }}</div>
+                                        <div class="stat-label">Brands</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="icon-users"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">{{ \App\Models\User::count() }}</div>
+                                        <div class="stat-label">Users</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="section-content-right">
@@ -399,6 +442,10 @@
                                                 <span class="flex flex-column">
                                                     <span class="body-title mb-2">Sayor</span>
                                                     <span class="text-tiny">Admin</span>
+                                                </span>
+                                                <span class="user-count">
+                                                    <i class="icon-users"></i>
+                                                    <span class="count-number">{{ \App\Models\User::count() }}</span>
                                                 </span>
                                             </span>
                                         </button>

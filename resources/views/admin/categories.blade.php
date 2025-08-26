@@ -32,8 +32,13 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <a class="tf-button style-1 w208" href="{{route('admin.category.add')}}"><i
-                                                class="icon-plus"></i>Add new</a>
+                                        <div class="flex items-center gap-4">
+                                            <div class="text-sm text-gray-600">
+                                                Total Categories: <span class="font-semibold">{{ $categories->total() }}</span>
+                                            </div>
+                                            <a class="tf-button style-1 w208" href="{{route('admin.category.add')}}"><i
+                                                    class="icon-plus"></i>Add new</a>
+                                        </div>
                                     </div>
                                     <div class="wg-table table-all-user">
                                         <div class="table-responsive">
@@ -63,7 +68,7 @@
                                                             </div>
                                                         </td>
                                                         <td>{{$category->slug}}</td>
-                                                        <td><a href="#" target="_blank">0</a></td>
+                                                        <td><a href="#" target="_blank">{{ $category->products_count }}</a></td>
                                                         <td>
                                                             <div class="list-icon-function">
                                                                 <a href="{{route('admin.category.edit',['id'=>$category->id])}}">

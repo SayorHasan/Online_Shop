@@ -3,6 +3,33 @@
 <div class="main-content-inner">
 
 <div class="main-content-wrap">
+    <!-- Summary Section -->
+    <div class="wg-box mb-30">
+        <div class="flex items-center justify-between mb-20">
+            <h4>System Overview</h4>
+            <div class="text-tiny text-muted">Last updated: {{ now()->format('M d, Y H:i') }}</div>
+        </div>
+        <div class="grid grid-cols-4 gap-4">
+            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                <div class="text-2xl font-bold text-blue-600">{{ $totalProducts }}</div>
+                <div class="text-sm text-gray-600">Products</div>
+            </div>
+            <div class="text-center p-4 bg-green-50 rounded-lg">
+                <div class="text-2xl font-bold text-green-600">{{ $totalCategories }}</div>
+                <div class="text-sm text-gray-600">Categories</div>
+            </div>
+            <div class="text-center p-4 bg-purple-50 rounded-lg">
+                <div class="text-2xl font-bold text-purple-600">{{ $totalBrands }}</div>
+                <div class="text-sm text-gray-600">Brands</div>
+            </div>
+            <div class="text-center p-4 bg-orange-50 rounded-lg">
+                <div class="text-2xl font-bold text-orange-600">{{ $totalUsers }}</div>
+                <div class="text-sm text-gray-600">Users</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Stats Section -->
     <div class="tf-section-2 mb-30">
         <div class="flex gap20 flex-wrap-mobile">
             <div class="w-half">
@@ -14,53 +41,50 @@
                                 <i class="icon-shopping-bag"></i>
                             </div>
                             <div>
-                                <div class="body-text mb-2">Total Orders</div>
-                                <h4>3</h4>
+                                <div class="body-text mb-2">Total Products</div>
+                                <h4>{{ $totalProducts }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="wg-chart-default mb-20">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap14">
                             <div class="image ic-bg">
-                                <i class="icon-dollar-sign"></i>
+                                <i class="icon-tag"></i>
                             </div>
                             <div>
-                                <div class="body-text mb-2">Total Amount</div>
-                                <h4>481.34</h4>
+                                <div class="body-text mb-2">Total Categories</div>
+                                <h4>{{ $totalCategories }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="wg-chart-default mb-20">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap14">
                             <div class="image ic-bg">
-                                <i class="icon-shopping-bag"></i>
+                                <i class="icon-award"></i>
                             </div>
                             <div>
-                                <div class="body-text mb-2">Pending Orders</div>
-                                <h4>3</h4>
+                                <div class="body-text mb-2">Total Brands</div>
+                                <h4>{{ $totalBrands }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="wg-chart-default">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap14">
                             <div class="image ic-bg">
-                                <i class="icon-dollar-sign"></i>
+                                <i class="icon-users"></i>
                             </div>
                             <div>
-                                <div class="body-text mb-2">Pending Orders Amount</div>
-                                <h4>481.34</h4>
+                                <div class="body-text mb-2">Total Users</div>
+                                <h4>{{ $totalUsers }}</h4>
                             </div>
                         </div>
                     </div>
@@ -77,13 +101,12 @@
                                 <i class="icon-shopping-bag"></i>
                             </div>
                             <div>
-                                <div class="body-text mb-2">Delivered Orders</div>
-                                <h4>0</h4>
+                                <div class="body-text mb-2">Total Orders</div>
+                                <h4>{{ $totalOrders }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="wg-chart-default mb-20">
                     <div class="flex items-center justify-between">
@@ -92,38 +115,36 @@
                                 <i class="icon-dollar-sign"></i>
                             </div>
                             <div>
-                                <div class="body-text mb-2">Delivered Orders Amount</div>
-                                <h4>0.00</h4>
+                                <div class="body-text mb-2">Total Amount</div>
+                                <h4>${{ number_format($totalAmount, 2) }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="wg-chart-default mb-20">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap14">
                             <div class="image ic-bg">
-                                <i class="icon-shopping-bag"></i>
+                                <i class="icon-clock"></i>
                             </div>
                             <div>
-                                <div class="body-text mb-2">Canceled Orders</div>
-                                <h4>0</h4>
+                                <div class="body-text mb-2">Pending Orders</div>
+                                <h4>{{ $pendingOrders }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="wg-chart-default">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap14">
                             <div class="image ic-bg">
-                                <i class="icon-dollar-sign"></i>
+                                <i class="icon-check-circle"></i>
                             </div>
                             <div>
-                                <div class="body-text mb-2">Canceled Orders Amount</div>
-                                <h4>0.00</h4>
+                                <div class="body-text mb-2">Delivered Orders</div>
+                                <h4>{{ $deliveredOrders }}</h4>
                             </div>
                         </div>
                     </div>

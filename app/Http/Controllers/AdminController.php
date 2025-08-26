@@ -14,10 +14,30 @@ use Intervention\Image\Laravel\Facades\Image;
 class AdminController extends Controller
 {
     public function index(){
-        return view('admin.index');
+        // Get actual counts from database
+        $totalProducts = Product::count();
+        $totalBrands = Brand::count();
+        $totalCategories = Category::count();
+        $totalUsers = \App\Models\User::count();
+        
+        // For now, set order-related counts to 0 since Order model doesn't exist yet
+        $totalOrders = 0;
+        $pendingOrders = 0;
+        $deliveredOrders = 0;
+        $canceledOrders = 0;
+        $totalAmount = 0.00;
+        $pendingAmount = 0.00;
+        $deliveredAmount = 0.00;
+        $canceledAmount = 0.00;
+        
+        return view('admin.index', compact(
+            'totalProducts', 'totalBrands', 'totalCategories', 'totalUsers',
+            'totalOrders', 'pendingOrders', 'deliveredOrders', 'canceledOrders',
+            'totalAmount', 'pendingAmount', 'deliveredAmount', 'canceledAmount'
+        ));
     }
     public function brands(){
-        $brands=Brand::orderBy('id','DESC')->paginate(10);
+        $brands = Brand::withCount('products')->orderBy('id','DESC')->paginate(10);
         return view('admin.brands',compact('brands'));
     }
 
@@ -102,7 +122,7 @@ class AdminController extends Controller
         return redirect()->route('admin.brands')->with('status','Brand has been deleted successfully!');
     }
     public function categories(){
-        $categories = Category::orderBy('id','DESC')->paginate(10);
+        $categories = Category::withCount('products')->orderBy('id','DESC')->paginate(10);
         return view('admin.categories',compact('categories'));
     }
     public function category_add(){

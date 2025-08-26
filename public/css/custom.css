@@ -1175,3 +1175,331 @@ body {
     border-color: #2377FC !important;
     box-shadow: 0 4px 12px rgba(35, 119, 252, 0.15) !important;
 }
+
+/* Admin Dashboard Summary Section */
+.admin .wg-box .grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1rem !important;
+}
+
+.admin .wg-box .grid > div {
+    text-align: center !important;
+    padding: 1rem !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.admin .wg-box .grid > div:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+.admin .wg-box .bg-blue-50 {
+    background-color: #eff6ff !important;
+}
+
+.admin .wg-box .bg-green-50 {
+    background-color: #f0fdf4 !important;
+}
+
+.admin .wg-box .bg-purple-50 {
+    background-color: #faf5ff !important;
+}
+
+.admin .wg-box .bg-orange-50 {
+    background-color: #fff7ed !important;
+}
+
+.admin .wg-box .text-blue-600 {
+    color: #2563eb !important;
+}
+
+.admin .wg-box .text-green-600 {
+    color: #16a34a !important;
+}
+
+.admin .wg-box .text-purple-600 {
+    color: #9333ea !important;
+}
+
+.admin .wg-box .text-orange-600 {
+    color: #ea580c !important;
+}
+
+.admin .wg-box .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+.admin .wg-box .text-2xl {
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
+}
+
+.admin .wg-box .font-bold {
+    font-weight: 700 !important;
+}
+
+.admin .wg-box .text-sm {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+}
+
+.admin .wg-box .text-muted {
+    color: #6b7280 !important;
+}
+
+.admin .wg-box .mb-20 {
+    margin-bottom: 1.25rem !important;
+}
+
+.admin .wg-box .p-4 {
+    padding: 1rem !important;
+}
+
+.admin .wg-box .rounded-lg {
+    border-radius: 0.5rem !important;
+}
+
+/* Admin List Page Count Displays */
+.admin .text-sm.text-gray-600 {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+    color: #6b7280 !important;
+}
+
+.admin .font-semibold {
+    font-weight: 600 !important;
+}
+
+.admin .flex.items-center.gap-4 {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+}
+
+/* Enhanced table styling for better readability */
+.admin .table-responsive {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.admin .table th {
+    background-color: #f8f9fa !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    border-bottom: 2px solid #e5e7eb !important;
+}
+
+.admin .table td {
+    vertical-align: middle !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.admin .table tbody tr:hover {
+    background-color: #f9fafb !important;
+    transition: background-color 0.2s ease !important;
+}
+
+/* Admin Header User Count Display */
+.admin .user-count {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin-left: 0.5rem !important;
+    padding: 0.25rem 0.5rem !important;
+    background-color: #f3f4f6 !important;
+    border-radius: 0.375rem !important;
+    font-size: 0.75rem !important;
+    color: #6b7280 !important;
+}
+
+.admin .user-count .icon-users {
+    font-size: 0.875rem !important;
+    color: #374151 !important;
+}
+
+.admin .user-count .count-number {
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+}
+
+.admin .header-user {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+}
+
+/* Responsive adjustments for user count */
+@media (max-width: 768px) {
+    .admin .user-count {
+        display: none !important;
+    }
+}
+
+/* Admin Sidebar Quick Stats */
+.admin .quick-stats {
+    padding: 0.5rem !important;
+}
+
+.admin .quick-stats .stat-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem !important;
+    margin-bottom: 0.5rem !important;
+    background-color: #f8f9fa !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.admin .quick-stats .stat-item:hover {
+    background-color: #e9ecef !important;
+    transform: translateX(2px) !important;
+}
+
+.admin .quick-stats .stat-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+.admin .quick-stats .stat-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 2rem !important;
+    height: 2rem !important;
+    background-color: #2377FC !important;
+    color: white !important;
+    border-radius: 0.375rem !important;
+    font-size: 0.875rem !important;
+}
+
+.admin .quick-stats .stat-content {
+    flex: 1 !important;
+}
+
+.admin .quick-stats .stat-number {
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    color: #1f2937 !important;
+    line-height: 1 !important;
+}
+
+.admin .quick-stats .stat-label {
+    font-size: 0.75rem !important;
+    color: #6b7280 !important;
+    margin-top: 0.125rem !important;
+}
+
+/* Responsive adjustments for quick stats */
+@media (max-width: 768px) {
+    .admin .quick-stats .stat-item {
+        padding: 0.5rem !important;
+    }
+    
+    .admin .quick-stats .stat-number {
+        font-size: 1rem !important;
+    }
+}
+
+/* User Dashboard Styling */
+.my-account__dashboard .welcome-section h3 {
+    color: #1f2937 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.my-account__dashboard .text-muted {
+    color: #6b7280 !important;
+}
+
+.my-account__dashboard .stats-section h4 {
+    color: #374151 !important;
+    margin-bottom: 1rem !important;
+    font-weight: 600 !important;
+}
+
+.my-account__dashboard .stat-card {
+    transition: all 0.3s ease !important;
+    border: none !important;
+}
+
+.my-account__dashboard .stat-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.my-account__dashboard .stat-number {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.my-account__dashboard .stat-label {
+    font-size: 0.875rem !important;
+    opacity: 0.9 !important;
+}
+
+.my-account__dashboard .featured-products h4,
+.my-account__dashboard .latest-products h4 {
+    color: #374151 !important;
+    margin-bottom: 1rem !important;
+    font-weight: 600 !important;
+}
+
+.my-account__dashboard .product-card {
+    transition: all 0.3s ease !important;
+    height: 100% !important;
+}
+
+.my-account__dashboard .product-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    border-color: #2377FC !important;
+}
+
+.my-account__dashboard .product-image img {
+    width: 100% !important;
+    height: 120px !important;
+    object-fit: cover !important;
+}
+
+.my-account__dashboard .no-image {
+    height: 120px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.my-account__dashboard .product-name {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+    line-height: 1.2 !important;
+}
+
+.my-account__dashboard .product-category {
+    font-size: 0.75rem !important;
+}
+
+.my-account__dashboard .product-price {
+    margin-top: 0.5rem !important;
+}
+
+.my-account__dashboard .text-primary {
+    color: #2377FC !important;
+}
+
+.my-account__dashboard .account-links {
+    margin-top: 2rem !important;
+    padding-top: 1rem !important;
+    border-top: 1px solid #e5e7eb !important;
+}
+
+.my-account__dashboard .account-links a {
+    text-decoration: none !important;
+}
+
+.my-account__dashboard .account-links a:hover {
+    text-decoration: underline !important;
+}
