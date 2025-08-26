@@ -16,6 +16,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::middleware(['auth'])->group(function(){
     Route::get('/account.dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/shop', [UserController::class, 'shop'])->name('user.shop');
+    Route::get('/product/{id}', [UserController::class, 'productDetails'])->name('user.product.details');
 });
 
 Route::middleware(['auth',AuthAdmin::class])->group(function(){
@@ -42,6 +43,7 @@ Route::middleware(['auth',AuthAdmin::class])->group(function(){
     Route::put('/admin/product/update',[AdminController::class,'product_update'])->name('admin.product.update');
     Route::delete('/admin/product/{id}/delete',[AdminController::class,'product_delete'])->name('admin.product.delete');
     Route::get('/admin/shop',[AdminController::class,'shop'])->name('admin.shop');
+    Route::get('/admin/product/{id}',[AdminController::class,'productDetails'])->name('admin.product.details');
 
     
 });

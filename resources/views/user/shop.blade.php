@@ -123,7 +123,7 @@
                                 <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
-                                            <a href="#" class="d-block">
+                                            <a href="{{ route('user.product.details', $product->id) }}" class="d-block">
                                                 @if($product->image)
                                                     <img loading="lazy" src="{{asset('uploads/products/thumbnails/'.$product->image)}}" 
                                                          width="330" height="400" alt="{{$product->name}}" class="pc__img w-100 h-100 object-fit-cover">
@@ -181,7 +181,7 @@
                             <div class="pc__info p-3">
                                 <p class="pc__category text-primary mb-1">{{$product->category->name ?? 'N/A'}}</p>
                                 <h6 class="pc__title mb-2">
-                                    <a href="#" class="text-decoration-none text-dark">{{$product->name}}</a>
+                                    <a href="{{ route('user.product.details', $product->id) }}" class="text-decoration-none text-dark">{{$product->name}}</a>
                                 </h6>
                                 
                                 <div class="product-card__price d-flex align-items-center mb-2">

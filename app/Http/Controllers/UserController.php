@@ -48,4 +48,19 @@ class UserController extends Controller
         
         return view('user.shop', compact('products', 'categories', 'brands'));
     }
+
+    public function productDetails($id)
+    {
+        $product = Product::with(['category', 'brand', 'gallery'])
+            ->findOrFail($id);
+        
+        // Get related products from same category
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->with(['category', 'brand'])
+            ->take(4)
+            ->get();
+        
+        return view('user.product-details', compact('product', 'relatedProducts'));
+    }
 }

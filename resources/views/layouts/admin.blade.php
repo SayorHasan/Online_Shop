@@ -76,6 +76,11 @@
                                                 <div class="text">Products</div>
                                             </a>
                                         </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{route('admin.shop')}}" class="">
+                                                <div class="text">Shop View</div>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="menu-item has-children">

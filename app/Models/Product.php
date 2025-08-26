@@ -17,4 +17,12 @@ public function brand()
     {
     return $this->belongsTo(Brand::class,'brand_id');
     }
+
+    public function getGalleryAttribute()
+    {
+        if ($this->images) {
+            return explode(',', $this->images);
+        }
+        return [];
+    }
 }
