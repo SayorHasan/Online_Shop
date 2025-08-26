@@ -27,6 +27,11 @@
     @stack("styles")
 </head>
 <body class="gradient-bg">
+  @php
+    // Simple helper to determine shop route
+    $isAdmin = request()->is('admin*') || (auth()->check() && auth()->user()->utype === 'ADM');
+    $shopRoute = $isAdmin ? route('admin.shop') : route('user.shop');
+  @endphp
   <svg class="d-none">
     <symbol id="icon_nav" viewBox="0 0 25 18">
       <rect width="25" height="2" />
@@ -312,7 +317,7 @@
               <a href="{{route('home.index')}}" class="navigation__link">Home</a>
             </li>
             <li class="navigation__item">
-              <a href="shop.html" class="navigation__link">Shop</a>
+              <a href="{{ $shopRoute }}" class="navigation__link">Shop</a>
             </li>
             <li class="navigation__item">
               <a href="cart.html" class="navigation__link">Cart</a>
@@ -401,7 +406,7 @@
               <a href="{{route('home.index')}}" class="navigation__link">Home</a>
             </li>
             <li class="navigation__item">
-              <a href="shop.html" class="navigation__link">Shop</a>
+              <a href="{{ $shopRoute }}" class="navigation__link">Shop</a>
             </li>
             <li class="navigation__item">
               <a href="cart.html" class="navigation__link">Cart</a>
@@ -574,11 +579,11 @@
         <div class="footer-column footer-menu mb-4 mb-lg-0">
           <h6 class="sub-menu__title text-uppercase">Shop</h6>
           <ul class="sub-menu__list list-unstyled">
-            <li class="sub-menu__item"><a href="shop2.html" class="menu-link menu-link_us-s">New Arrivals</a></li>
-            <li class="sub-menu__item"><a href="shop3.html" class="menu-link menu-link_us-s">Accessories</a></li>
-            <li class="sub-menu__item"><a href="shop4.html" class="menu-link menu-link_us-s">Men</a></li>
-            <li class="sub-menu__item"><a href="shop5.html" class="menu-link menu-link_us-s">Women</a></li>
-            <li class="sub-menu__item"><a href="shop1.html" class="menu-link menu-link_us-s">Shop All</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s">Shop All</a></li>
+            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">New Arrivals</a></li>
+            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Accessories</a></li>
+            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Men</a></li>
+            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Women</a></li>
           </ul>
         </div>
 
@@ -633,7 +638,7 @@
       </div>
 
       <div class="col-4">
-        <a href="{{route('home.index')}}" class="footer-mobile__link d-flex flex-column align-items-center">
+        <a href="{{ $shopRoute }}" class="footer-mobile__link d-flex flex-column align-items-center">
           <svg class="d-block" width="18" height="18" viewBox="0 0 18 18" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <use href="#icon_hanger" />

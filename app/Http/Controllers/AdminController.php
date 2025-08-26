@@ -471,6 +471,18 @@ public function GenerateProductThumbnailImage($image,$imageName){
         return redirect()->route('admin.products')->with('status', 'Product has been deleted successfully!');
     }
 
+    public function shop()
+    {
+        $products = Product::with(['category', 'brand'])
+            ->orderBy('created_at', 'DESC')
+            ->paginate(12);
+        
+        $categories = Category::orderBy('name')->get();
+        $brands = Brand::orderBy('name')->get();
+        
+        return view('admin.shop', compact('products', 'categories', 'brands'));
+    }
+
 
 
 

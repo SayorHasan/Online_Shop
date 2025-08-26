@@ -140,6 +140,12 @@
                                     </a>
                                 </li>
                                 <li class="menu-item">
+                                    <a href="{{ route('admin.shop') }}" class="">
+                                        <div class="icon"><i class="icon-shopping-bag"></i></div>
+                                        <div class="text">Shop</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
                                     <a href="coupons.html" class="">
                                         <div class="icon"><i class="icon-grid"></i></div>
                                         <div class="text">Coupons</div>

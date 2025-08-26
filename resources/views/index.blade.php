@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+@php
+    // Simple helper to determine shop route
+    $isAdmin = request()->is('admin*') || (auth()->check() && auth()->user()->utype === 'ADM');
+    $shopRoute = $isAdmin ? route('admin.shop') : route('user.shop');
+@endphp
 <main>
 
 <section class="swiper-container js-swiper-slider swiper-number-pagination slideshow" data-settings='{
@@ -28,7 +33,7 @@
             New Arrivals</h6>
           <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">Night Spring</h2>
           <h2 class="h1 fw-bold animate animate_fade animate_btt animate_delay-5">Dresses</h2>
-          <a href="#"
+          <a href="{{ $shopRoute }}"
             class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">Shop
             Now</a>
         </div>
@@ -51,7 +56,7 @@
             New Arrivals</h6>
           <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">Night Spring</h2>
           <h2 class="h1 fw-bold animate animate_fade animate_btt animate_delay-5">Dresses</h2>
-          <a href="#"
+          <a href="{{ $shopRoute }}"
             class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">Shop
             Now</a>
         </div>
@@ -70,7 +75,7 @@
             New Arrivals</h6>
           <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">Night Spring</h2>
           <h2 class="h1 fw-bold animate animate_fade animate_btt animate_delay-5">Dresses</h2>
-          <a href="#"
+          <a href="{{ $shopRoute }}"
             class="btn-link btn-link_lg default-underline fw-medium animate animate_fade animate_btt animate_delay-7">Shop
             Now</a>
         </div>
@@ -591,7 +596,7 @@
           </div>
           <div class="category-banner__item-content">
             <h3 class="mb-0">Blazers</h3>
-            <a href="#" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+            <a href="{{ $shopRoute }}" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
           </div>
         </div>
       </div>
@@ -604,8 +609,8 @@
           </div>
           <div class="category-banner__item-content">
             <h3 class="mb-0">Sportswear</h3>
-            <a href="#" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
-          </div>
+            <a href="{{ $shopRoute }}" class="btn-link default-underline text-uppercase fw-medium">Shop Now</a>
+            </div>
         </div>
       </div>
     </div>

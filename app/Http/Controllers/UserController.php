@@ -36,4 +36,16 @@ class UserController extends Controller
             'featuredProducts', 'latestProducts'
         ));
     }
+
+    public function shop()
+    {
+        $products = Product::with(['category', 'brand'])
+            ->orderBy('created_at', 'DESC')
+            ->paginate(12);
+        
+        $categories = Category::orderBy('name')->get();
+        $brands = Brand::orderBy('name')->get();
+        
+        return view('user.shop', compact('products', 'categories', 'brands'));
+    }
 }
