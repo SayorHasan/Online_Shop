@@ -7,6 +7,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AddressController;
 use App\Http\Middleware\AuthAdmin;
 
 
@@ -54,6 +56,25 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/coupons/apply', [CouponController::class, 'apply'])->name('coupons.apply');
     Route::post('/coupons/remove', [CouponController::class, 'remove'])->name('coupons.remove');
     Route::post('/coupons/validate', [CouponController::class, 'validateCoupon'])->name('coupons.validate');
+    
+    // Checkout routes
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('user.checkout');
+    Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place.order');
+    Route::get('/checkout/confirmation/{order_id}', [CheckoutController::class, 'confirmation'])->name('checkout.confirmation');
+    
+    // Address routes
+    Route::get('/addresses', [AddressController::class, 'index'])->name('user.addresses');
+    Route::get('/addresses/create', [AddressController::class, 'create'])->name('user.address.create');
+    Route::post('/addresses', [AddressController::class, 'store'])->name('user.address.store');
+    Route::get('/addresses/{id}/edit', [AddressController::class, 'edit'])->name('user.address.edit');
+    Route::put('/addresses/{id}', [AddressController::class, 'update'])->name('user.address.update');
+    Route::delete('/addresses/{id}', [AddressController::class, 'destroy'])->name('user.address.destroy');
+    Route::patch('/addresses/{id}/set-default', [AddressController::class, 'setDefault'])->name('user.address.set-default');
+    
+    // Order routes
+    Route::get('/orders', [UserController::class, 'orders'])->name('user.orders');
+    Route::get('/order/{id}/details', [UserController::class, 'orderDetails'])->name('user.order.details');
+    Route::put('/account-order/cancel-order',[UserController::class,'account_cancel_order'])->name('user.account_cancel_order');
 });
 
 Route::middleware(['auth',AuthAdmin::class])->group(function(){
@@ -90,5 +111,10 @@ Route::middleware(['auth',AuthAdmin::class])->group(function(){
     Route::put('/admin/coupon/update',[AdminController::class,'update_coupon'])->name('admin.coupon.update');
     Route::delete('/admin/coupon/{id}/delete',[AdminController::class,'delete_coupon'])->name('admin.coupon.delete');
     Route::get('/admin/coupon/{id}/toggle-status',[AdminController::class,'toggle_coupon_status'])->name('admin.coupon.toggle-status');
+    
+    // Order routes
+    Route::get('/admin/orders',[AdminController::class,'orders'])->name('admin.orders');
+    Route::get('/admin/order/{id}/details',[AdminController::class,'order_details'])->name('admin.order.details');
+    Route::put('/admin/order/status/update',[AdminController::class,'update_order_status'])->name('admin.order.status.update');
     
 });

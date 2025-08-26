@@ -26,15 +26,15 @@
             </div>
             <div class="col-lg-4 text-lg-end">
                 <div class="d-flex align-items-center justify-content-end gap-3">
-                    <div class="shop-stats">
-                        <span class="badge bg-primary fs-6">{{ $shopStats['total_products'] }} Products</span>
-                        <span class="badge bg-success ms-2">{{ $shopStats['total_categories'] }} Categories</span>
-                        <span class="badge bg-info ms-2">{{ $shopStats['total_brands'] }} Brands</span>
-                        <span class="badge bg-warning ms-2">{{ $shopStats['featured_products'] }} Featured</span>
-                        <span class="badge bg-secondary ms-2">{{ $shopStats['new_arrivals'] }} New</span>
+                    <div class="shop-stats d-flex align-items-center gap-2 flex-wrap">
+                        <span class="badge bg-dark fs-6 rounded-pill px-3 py-2">{{ $shopStats['total_products'] }} Products</span>
+                        <span class="badge fs-6 text-white rounded-pill px-3 py-2" style="background-color:#1b4332;">{{ $shopStats['total_categories'] }} Categories</span>
+                        <span class="badge fs-6 text-white rounded-pill px-3 py-2" style="background-color:#005f73;">{{ $shopStats['total_brands'] }} Brands</span>
+                        <span class="badge fs-6 text-white rounded-pill px-3 py-2" style="background-color:#14532d;">{{ $shopStats['featured_products'] }} Featured</span>
+                        <span class="badge fs-6 text-white rounded-pill px-3 py-2" style="background-color:#1d3557;">{{ $shopStats['new_arrivals'] }} New</span>
                     </div>
                     <div class="cart-icon-wrapper">
-                        <a href="{{ route('user.cart') }}" class="btn btn-outline-primary position-relative">
+                        <a href="{{ route('user.cart') }}" class="btn btn-dark text-white position-relative px-4 py-2 rounded-3">
                             <i class="icon-shopping-cart me-2"></i>Cart
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count" id="cartCount">
                                 {{ Session::get('cart', []) ? count(Session::get('cart', [])) : 0 }}
@@ -64,8 +64,9 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Search products..." 
                                                name="search" value="{{ request('search') }}">
-                                        <button class="btn btn-outline-primary" type="submit">
+                                        <button class="btn btn-dark text-white" type="submit">
                                             <i class="icon-search"></i>
+                                            <span class="ms-1">Search</span>
                                         </button>
                                     </div>
                                 </form>
@@ -76,7 +77,7 @@
                                 <h6>Categories</h6>
                                 <div class="list-group list-group-flush">
                                     @foreach($categories as $category)
-                                        <a href="?category={{ $category->id }}" 
+                                        <a href="{{ request()->fullUrlWithQuery(['category' => $category->id]) }}" 
                                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
                                                   {{ request('category') == $category->id ? 'active' : '' }}">
                                             {{ $category->name }}
@@ -91,7 +92,7 @@
                                 <h6>Brands</h6>
                                 <div class="list-group list-group-flush">
                                     @foreach($brands as $brand)
-                                        <a href="?brand={{ $brand->id }}" 
+                                        <a href="{{ request()->fullUrlWithQuery(['brand' => $brand->id]) }}" 
                                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
                                                   {{ request('brand') == $brand->id ? 'active' : '' }}">
                                             {{ $brand->name }}
@@ -105,11 +106,17 @@
                             <div class="mb-4">
                                 <h6>Price Range</h6>
                                 <div class="price-range">
-                                    <input type="range" class="form-range" id="priceRange" min="0" max="1000" step="10" value="1000">
-                                    <div class="d-flex justify-content-between">
-                                        <span>$0</span>
-                                        <span id="priceValue">$1000</span>
-                                    </div>
+                                    <form method="GET" action="{{ route('user.shop') }}" id="priceFilterForm">
+                                        <input type="hidden" name="search" value="{{ request('search') }}">
+                                        <input type="hidden" name="category" value="{{ request('category') }}">
+                                        <input type="hidden" name="brand" value="{{ request('brand') }}">
+                                        <input type="range" class="form-range" id="priceRange" name="max_price" min="0" max="1000" step="10" value="{{ request('max_price', 1000) }}">
+                                        <div class="d-flex justify-content-between">
+                                            <span>$0</span>
+                                            <span id="priceValue">${{ request('max_price', 1000) }}</span>
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary mt-2 w-100">Apply</button>
+                                    </form>
                                 </div>
                             </div>
 
@@ -216,10 +223,10 @@
                                     <div class="product-card__price d-flex align-items-center mb-2">
                                         @if($product->sale_price && $product->sale_price < $product->regular_price)
                                             <span class="text-decoration-line-through text-muted me-2">${{$product->regular_price}}</span>
-                                            <span class="text-success fw-bold">${{$product->sale_price}}</span>
-                                            <span class="badge bg-success ms-2">{{round(($product->regular_price - $product->sale_price)*100/$product->regular_price)}}% OFF</span>
+                                            <span class="fw-bold text-dark">${{$product->sale_price}}</span>
+                                            <span class="badge bg-dark ms-2">{{round(($product->regular_price - $product->sale_price)*100/$product->regular_price)}}% OFF</span>
                                         @else
-                                            <span class="fw-bold">${{$product->regular_price}}</span>
+                                            <span class="fw-bold text-dark">${{$product->regular_price}}</span>
                                         @endif
                                     </div>
                                     
@@ -306,6 +313,16 @@
             $('#priceValue').text('$' + $(this).val());
         });
 
+        // Auto-submit price filter when slider is released
+        $('#priceRange').on('change', function(){
+            $('#priceFilterForm').submit();
+        });
+
+        // Search functionality (allow empty if user wants to clear)
+        $('.form-search').on('submit', function(e) {
+            // no-op
+        });
+
         // Grid/List view toggle
         $('#gridView').on('click', function() {
             $('#products-grid').removeClass('row-cols-1').addClass('row-cols-1 row-cols-md-2 row-cols-lg-3');
@@ -389,38 +406,30 @@
             });
         });
 
-        // Search functionality
-        $('.form-search').on('submit', function(e) {
-            const searchInput = $(this).find('input[name="search"]');
-            if (searchInput.val().trim() === '') {
-                e.preventDefault();
-            }
-        });
-    });
-
-    // Toast notification function
-    function showToast(title, message, type) {
-        const toast = `
-            <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0 position-fixed top-0 end-0 m-3" 
-                 role="alert" aria-live="assertive" aria-atomic="true" style="z-index: 9999;">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        <strong>${title}</strong><br>${message}
+        // Toast notification function
+        function showToast(title, message, type) {
+            const toast = `
+                <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0 position-fixed top-0 end-0 m-3" 
+                     role="alert" aria-live="assertive" aria-atomic="true" style="z-index: 9999;">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <strong>${title}</strong><br>${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-            </div>
-        `;
-        
-        $('body').append(toast);
-        const toastElement = $('.toast').last();
-        const bsToast = new bootstrap.Toast(toastElement);
-        bsToast.show();
-        
-        // Remove toast after it's hidden
-        toastElement.on('hidden.bs.toast', function() {
-            $(this).remove();
-        });
-    }
+            `;
+            
+            $('body').append(toast);
+            const toastElement = $('.toast').last();
+            const bsToast = new bootstrap.Toast(toastElement);
+            bsToast.show();
+            
+            // Remove toast after it's hidden
+            toastElement.on('hidden.bs.toast', function() {
+                $(this).remove();
+            });
+        }
+    });
 </script>
 @endpush

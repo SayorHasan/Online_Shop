@@ -60,12 +60,19 @@ class UserController extends Controller
             });
         }
 
+        // Price: filter by effective price (sale_price if set, else regular_price)
+        if ($request->filled('max_price')) {
+            $max = (float) $request->max_price;
+            $query->whereRaw('COALESCE(sale_price, regular_price) <= ?', [$max]);
+        }
+
         // Only show in-stock products for customers
         $query->where('stock_status', 'in_stock');
 
         $products = $query->orderBy('featured', 'DESC')
                          ->orderBy('created_at', 'DESC')
-                         ->paginate(12);
+                         ->paginate(12)
+                         ->appends($request->query());
         
         // Get categories with product counts
         $categories = Category::withCount(['products' => function($query) {
@@ -157,5 +164,51 @@ class UserController extends Controller
             
             abort(404, 'Product not found');
         }
+    }
+
+    public function orders()
+    {
+        $user = Auth::user();
+        $orders = \App\Models\Order::where('user_id', $user->id)
+                                   ->with(['items.product.category', 'items.product.brand', 'shippingAddress'])
+                                   ->orderBy('created_at', 'DESC')
+                                   ->paginate(10);
+        
+        return view('user.orders', compact('orders'));
+    }
+
+    public function orderDetails($id)
+    {
+        $user = Auth::user();
+        $order = \App\Models\Order::where('user_id', $user->id)
+                                  ->with(['items.product.category', 'items.product.brand', 'shippingAddress'])
+                                  ->findOrFail($id);
+        
+        return view('user.order-details', compact('order'));
+    }
+
+    public function account_cancel_order(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:orders,id'
+        ]);
+
+        $order = \App\Models\Order::where('id', $request->order_id)
+            ->where('user_id', \Illuminate\Support\Facades\Auth::id())
+            ->firstOrFail();
+
+        if ($order->status === 'canceled') {
+            return back()->with('status', 'Order is already canceled.');
+        }
+        if ($order->status === 'delivered') {
+            return back()->with('status', 'Delivered orders cannot be canceled.');
+        }
+
+        $order->status = 'canceled';
+        $order->canceled_date = \Carbon\Carbon::now();
+        $order->payment_status = 'refunded';
+        $order->save();
+
+        return back()->with('status', 'Order has been cancelled successfully!');
     }
 }

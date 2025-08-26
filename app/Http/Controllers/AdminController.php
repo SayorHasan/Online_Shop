@@ -21,15 +21,15 @@ class AdminController extends Controller
         $totalCategories = Category::count();
         $totalUsers = \App\Models\User::count();
         
-        // For now, set order-related counts to 0 since Order model doesn't exist yet
-        $totalOrders = 0;
-        $pendingOrders = 0;
-        $deliveredOrders = 0;
-        $canceledOrders = 0;
-        $totalAmount = 0.00;
-        $pendingAmount = 0.00;
-        $deliveredAmount = 0.00;
-        $canceledAmount = 0.00;
+        // Get order-related counts from database
+        $totalOrders = \App\Models\Order::count();
+        $pendingOrders = \App\Models\Order::where('status', 'ordered')->count();
+        $deliveredOrders = \App\Models\Order::where('status', 'delivered')->count();
+        $canceledOrders = \App\Models\Order::where('status', 'canceled')->count();
+        $totalAmount = \App\Models\Order::sum('total');
+        $pendingAmount = \App\Models\Order::where('status', 'ordered')->sum('total');
+        $deliveredAmount = \App\Models\Order::where('status', 'delivered')->sum('total');
+        $canceledAmount = \App\Models\Order::where('status', 'canceled')->sum('total');
         
         return view('admin.index', compact(
             'totalProducts', 'totalBrands', 'totalCategories', 'totalUsers',
@@ -683,5 +683,58 @@ public function GenerateProductThumbnailImage($image,$imageName){
         
         $status = $coupon->is_active ? 'activated' : 'deactivated';
         return redirect()->route('admin.coupons')->with('status', "Coupon has been {$status} successfully!");
+    }
+
+    // Order Methods
+    public function orders(Request $request)
+    {
+        $query = \App\Models\Order::with(['user', 'shippingAddress', 'items.product.category', 'items.product.brand']);
+        
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('id', 'LIKE', "%{$search}%")
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('name', 'LIKE', "%{$search}%");
+                  })
+                  ->orWhereHas('shippingAddress', function($addressQuery) use ($search) {
+                      $addressQuery->where('phone', 'LIKE', "%{$search}%");
+                  });
+            });
+        }
+        
+        $orders = $query->orderBy('created_at', 'DESC')->paginate(15);
+        return view('admin.orders', compact('orders'));
+    }
+
+    public function order_details($id)
+    {
+        $order = \App\Models\Order::with(['user', 'shippingAddress', 'items.product.category', 'items.product.brand'])
+                                  ->findOrFail($id);
+        return view('admin.order-details', compact('order'));
+    }
+
+    public function update_order_status(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'order_status' => 'required|in:ordered,delivered,canceled'
+        ]);
+
+        $order = \App\Models\Order::findOrFail($request->order_id);
+        $order->status = $request->order_status;
+        
+        if($request->order_status == 'delivered') {
+            $order->delivered_date = \Carbon\Carbon::now();
+            $order->payment_status = 'paid';
+        }
+        else if($request->order_status == 'canceled') {
+            $order->canceled_date = \Carbon\Carbon::now();
+            $order->payment_status = 'refunded';
+        }
+        
+        $order->save();
+        
+        return redirect()->back()->with('status', 'Status changed successfully!');
     }
 }
