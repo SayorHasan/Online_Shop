@@ -4,7 +4,7 @@
     <div class="mb-4 pb-4"></div>
     
     <!-- Shop Header -->
-    <section class="shop-header container mb-5">
+    <section class="shop-header container mb-5">  
         <!-- Highlighted Product Message -->
         @if($highlightedProduct)
         <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
@@ -26,13 +26,6 @@
             </div>
             <div class="col-lg-4 text-lg-end">
                 <div class="d-flex align-items-center justify-content-end gap-3">
-                    <div class="shop-stats d-flex align-items-center gap-2 flex-wrap">
-                        <span class="badge bg-dark fs-6 rounded-pill px-3 py-2">{{ $shopStats['total_products'] }} Products</span>
-                        <span class="badge fs-6 text-white rounded-pill px-3 py-2" style="background-color:#1b4332;">{{ $shopStats['total_categories'] }} Categories</span>
-                        <span class="badge fs-6 text-white rounded-pill px-3 py-2" style="background-color:#005f73;">{{ $shopStats['total_brands'] }} Brands</span>
-                        <span class="badge fs-6 text-white rounded-pill px-3 py-2" style="background-color:#14532d;">{{ $shopStats['featured_products'] }} Featured</span>
-                        <span class="badge fs-6 text-white rounded-pill px-3 py-2" style="background-color:#1d3557;">{{ $shopStats['new_arrivals'] }} New</span>
-                    </div>
                     <div class="cart-icon-wrapper">
                         <a href="{{ route('user.cart') }}" class="btn btn-dark text-white position-relative px-4 py-2 rounded-3">
                             <i class="icon-shopping-cart me-2"></i>Cart
@@ -40,6 +33,7 @@
                                 {{ Session::get('cart', []) ? count(Session::get('cart', [])) : 0 }}
                             </span>
                         </a>
+
                     </div>
                 </div>
             </div>
@@ -52,11 +46,13 @@
             <!-- Sidebar Filters -->
             <div class="col-lg-3 mb-4">
                 <div class="shop-sidebar">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Filters</h5>
+                    <div class="card" style="border: none; box-shadow: var(--shadow-lg);">
+                        <div class="card-header" style="background: var(--primary-gradient); color: white; border: none;">
+                            <h5 class="mb-0">
+                                <i class="icon-filter me-2"></i>Filters
+                            </h5>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="background: var(--bg-primary);">
                             <!-- Search -->
                             <div class="mb-4">
                                 <h6>Search</h6>
@@ -99,6 +95,40 @@
                                             <span class="badge bg-primary rounded-pill">{{ $brand->products_count }}</span>
                                         </a>
                                     @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Stock Status Filter -->
+                            <div class="mb-4">
+                                <h6>Stock Status</h6>
+                                <div class="list-group list-group-flush">
+                                    <a href="{{ request()->fullUrlWithQuery(['stock' => 'in_stock']) }}" 
+                                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
+                                              {{ request('stock') == 'in_stock' ? 'active' : '' }}">
+                                        <span class="d-flex align-items-center">
+                                            <span class="badge bg-success me-2" style="width: 12px; height: 12px;"></span>
+                                            In Stock
+                                        </span>
+                                        <span class="badge bg-success rounded-pill">{{ $shopStats['in_stock_products'] }}</span>
+                                    </a>
+                                    <a href="{{ request()->fullUrlWithQuery(['stock' => 'out_of_stock']) }}" 
+                                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
+                                              {{ request('stock') == 'out_of_stock' ? 'active' : '' }}">
+                                        <span class="d-flex align-items-center">
+                                            <span class="badge bg-danger me-2" style="width: 12px; height: 12px;"></span>
+                                            Out of Stock
+                                        </span>
+                                        <span class="badge bg-danger rounded-pill">{{ $shopStats['out_of_stock_products'] }}</span>
+                                    </a>
+                                    <a href="{{ request()->fullUrlWithQuery(['stock' => 'low_stock']) }}" 
+                                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
+                                              {{ request('stock') == 'low_stock' ? 'active' : '' }}">
+                                        <span class="d-flex align-items-center">
+                                            <span class="badge bg-warning me-2" style="width: 12px; height: 12px;"></span>
+                                            Low Stock
+                                        </span>
+                                        <span class="badge bg-warning rounded-pill">{{ \App\Models\Product::where('quantity', '<=', 5)->where('quantity', '>', 0)->count() }}</span>
+                                    </a>
                                 </div>
                             </div>
 
@@ -180,7 +210,7 @@
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" id="products-grid">
                         @foreach($products as $product)
                         <div class="col mb-4">
-                            <div class="product-card h-100">
+                            <div class="product-card h-100" style="background: var(--bg-primary); border-radius: var(--radius-lg); border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition); overflow: hidden;">
                                 <div class="pc__img-wrapper position-relative">
                                     <div class="pc__img-slider">
                                         <div class="pc__img-slide">
@@ -202,14 +232,17 @@
                                         @endif
                                         @if($product->stock_status == 'out_of_stock')
                                             <span class="pc-label bg-danger text-white">Out of Stock</span>
+                                        @elseif($product->quantity <= 5)
+                                            <span class="pc-label bg-warning text-dark">Low Stock ({{ $product->quantity }})</span>
+                                        @else
+                                            <span class="pc-label bg-success text-white">In Stock ({{ $product->quantity }})</span>
                                         @endif
                                     </div>
 
                                     <!-- Wishlist Button -->
                                     <div class="position-absolute top-0 end-0 p-2">
-                                        <button class="btn btn-sm btn-outline-danger wishlist-btn" 
-                                                title="Add to Wishlist" data-product-id="{{ $product->id }}">
-                                            <i class="icon-heart"></i>
+                                        <button class="wishlist-btn heart-btn {{ in_array($product->id, $wishlistProductIds ?? []) ? 'active' : '' }}" title="Add to Wishlist" data-product-id="{{ $product->id }}" data-active="{{ in_array($product->id, $wishlistProductIds ?? []) ? 1 : 0 }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="heart-svg"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
                                         </button>
                                     </div>
                                 </div>
@@ -241,15 +274,23 @@
                                         <span class="reviews-note text-muted">5.0 ({{ rand(10, 100) }}+ reviews)</span>
                                     </div>
                                     
-                                    <!-- Add to Cart Button -->
-                                    <div class="d-grid">
+                                    <!-- Action Buttons -->
+                                    <div class="action-buttons d-flex gap-2">
+                                        <!-- View Button -->
+                                        <a href="{{ route('user.product.details', $product->id) }}" 
+                                           class="btn btn-outline-primary flex-fill" style="border-radius: var(--radius-md);">
+                                            <i class="icon-eye me-2"></i>View
+                                        </a>
+                                        
+                                        <!-- Add to Cart Button -->
                                         @if($product->stock_status == 'out_of_stock')
-                                            <button class="btn btn-secondary" disabled>Out of Stock</button>
+                                            <button class="btn btn-secondary flex-fill" disabled style="border-radius: var(--radius-md);">Out of Stock</button>
                                         @else
-                                            <button class="btn btn-primary add-to-cart-btn" 
+                                            <button class="btn btn-primary add-to-cart-btn flex-fill" 
                                                     data-product-id="{{ $product->id }}"
                                                     data-product-name="{{ $product->name }}"
-                                                    data-product-price="{{ $product->sale_price ?: $product->regular_price }}">
+                                                    data-product-price="{{ $product->sale_price ?: $product->regular_price }}"
+                                                    style="border-radius: var(--radius-md);">
                                                 <i class="icon-shopping-cart me-2"></i>Add to Cart
                                             </button>
                                         @endif
@@ -277,9 +318,75 @@
 </main>
 @endsection
 
+@push('styles')
+<style>
+  .heart-btn{width:34px;height:34px;border:0;background:#ffffffcc;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .1s ease, box-shadow .2s ease}
+  .heart-btn:hover{box-shadow:0 4px 10px rgba(0,0,0,.12);transform:translateY(-1px)}
+  .heart-btn .heart-svg{stroke:#e11d48;transition:fill .18s ease, stroke .18s ease}
+  .heart-btn.active .heart-svg{fill:#e11d48;stroke:#e11d48}
+  .heart-pop{animation:heartPop .22s ease}
+  @keyframes heartPop{0%{transform:scale(.92)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+  
+  /* Enhanced SweetAlert styling */
+  .swal-wide {
+      width: 400px !important;
+      max-width: 90vw !important;
+  }
+  
+  .swal-wide .swal2-popup {
+      border-radius: 12px;
+      padding: 2rem;
+  }
+  
+  .swal-wide .swal2-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+  }
+  
+  .swal-wide .alert {
+      border-radius: 8px;
+      margin: 0;
+  }
+  
+  /* Action buttons styling */
+  .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+  }
+  
+  .action-buttons .btn {
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+  }
+  
+  .action-buttons .btn i {
+      font-size: 0.875rem;
+  }
+  
+  /* Responsive button layout */
+  @media (max-width: 576px) {
+      .action-buttons {
+          flex-direction: column;
+          gap: 0.25rem;
+      }
+      
+      .action-buttons .btn {
+          width: 100%;
+      }
+  }
+</style>
+@endpush
+
 @push('scripts')
 <script>
     $(function(){
+        // Get current cart count on page load
+        getCurrentCartCount();
+        
+
+        
         // Highlight and scroll to specific product if highlighted
         @if($highlightedProduct)
         $(document).ready(function() {
@@ -340,20 +447,43 @@
         $('.wishlist-btn').on('click', function() {
             const productId = $(this).data('product-id');
             const btn = $(this);
-            
-            // Toggle wishlist state
-            if (btn.hasClass('active')) {
-                btn.removeClass('active btn-danger').addClass('btn-outline-danger');
-                btn.find('i').removeClass('icon-heart-fill').addClass('icon-heart');
-                btn.attr('title', 'Add to Wishlist');
-            } else {
-                btn.addClass('active btn-danger').removeClass('btn-outline-danger');
-                btn.find('i').removeClass('icon-heart').addClass('icon-heart-fill');
-                btn.attr('title', 'Remove from Wishlist');
-            }
-            
-            // You can implement AJAX call here to save to wishlist
-            console.log('Wishlist toggle for product:', productId);
+            btn.prop('disabled', true);
+            fetch('{{ route('wishlist.toggle') }}', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                body: JSON.stringify({ product_id: productId })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.added) {
+                        btn.addClass('active');
+                        btn.attr('title', 'Remove from Wishlist');
+                        Swal.fire({
+                            title: 'Added to Wishlist!',
+                            text: 'Product has been added to your wishlist.',
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            timer: 2000,
+                            timerProgressBar: true
+                        });
+                        showToast('Wishlist', 'Product added to your wishlist', 'success');
+                    } else {
+                        btn.removeClass('active');
+                        btn.attr('title', 'Add to Wishlist');
+                        Swal.fire({
+                            title: 'Removed from Wishlist!',
+                            text: 'Product has been removed from your wishlist.',
+                            icon: 'info',
+                            confirmButtonText: 'OK',
+                            timer: 2000,
+                            timerProgressBar: true
+                        });
+                        showToast('Wishlist', 'Removed from wishlist', 'error');
+                    }
+                }
+            })
+            .finally(() => btn.prop('disabled', false));
         });
 
         // Add to cart functionality
@@ -362,6 +492,8 @@
             const productName = $(this).data('product-name');
             const productPrice = $(this).data('product-price');
             const btn = $(this);
+            
+
             
             // Disable button to prevent double-click
             btn.prop('disabled', true).html('<i class="icon-spinner fa-spin me-2"></i>Adding...');
@@ -380,9 +512,11 @@
             })
             .then(response => response.json())
             .then(data => {
+
                 if (data.success) {
-                    // Update cart count
-                    $('#cartCount').text(data.cart_count);
+                    // Update cart count using centralized function - use total_quantity if available
+                    const cartCount = data.total_quantity || data.cart_count || 0;
+                    updateCartCount(cartCount);
                     
                     // Show success message
                     btn.removeClass('btn-primary').addClass('btn-success').html('<i class="icon-check me-2"></i>Added!');
@@ -392,19 +526,112 @@
                         btn.removeClass('btn-success').addClass('btn-primary').prop('disabled', false).html('<i class="icon-shopping-cart me-2"></i>Add to Cart');
                     }, 2000);
                     
-                    // Show toast notification
+                    // Show SweetAlert popup notification
+                    Swal.fire({
+                        title: 'Added to Cart!',
+                        html: `
+                            <div class="text-center">
+                                <div class="mb-3">
+                                    <i class="fa fa-check-circle text-success" style="font-size: 3rem;"></i>
+                                </div>
+                                <p class="mb-2"><strong>${productName}</strong></p>
+                                <p class="text-muted mb-3">has been added to your cart</p>
+                                <div class="alert alert-info">
+                                    <small><i class="fa fa-shopping-cart me-1"></i>Cart now contains ${cartCount} item${cartCount !== 1 ? 's' : ''}</small>
+                                </div>
+                            </div>
+                        `,
+                        icon: 'success',
+                        confirmButtonText: 'Continue Shopping',
+                        showCancelButton: true,
+                        cancelButtonText: 'View Cart',
+                        timer: 4000,
+                        timerProgressBar: true,
+                        customClass: {
+                            popup: 'swal-wide'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Continue shopping - stay on current page
+                        } else {
+                            // View cart
+                            window.location.href = '{{ route("user.cart") }}';
+                        }
+                    });
+                    
+                    // Also show a quick toast notification
                     showToast('Success!', productName + ' has been added to your cart', 'success');
                 } else {
+                    // Show error popup
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message || 'Failed to add product to cart.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                     showToast('Error!', data.message, 'error');
                     btn.prop('disabled', false).html('<i class="icon-shopping-cart me-2"></i>Add to Cart');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An error occurred while adding to cart. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
                 showToast('Error!', 'An error occurred while adding to cart', 'error');
                 btn.prop('disabled', false).html('<i class="icon-shopping-cart me-2"></i>Add to Cart');
             });
         });
+
+        // Function to get current cart count
+        function getCurrentCartCount() {
+            fetch('{{ route("cart.count") }}')
+                .then(response => response.json())
+                .then(data => {
+                    // Use total_quantity for cart count display (shows total items, not unique products)
+                    updateCartCount(data.total_quantity || data.count || 0);
+                })
+                .catch(error => {
+                    console.log('Failed to get cart count:', error);
+                });
+        }
+
+        // Function to update cart count across the page
+        function updateCartCount(count) {
+            // Update specific cart count elements by ID
+            const cartCountElements = [
+                'userCartCount',
+                'headerCartCount', 
+                'cartCount',
+                'js-cart-items-count'
+            ];
+            
+            cartCountElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = count;
+                }
+            });
+            
+            // Update elements with cart-related classes
+            const cartBadges = document.querySelectorAll('.cart-badge, .cart-count, .js-cart-items-count');
+            cartBadges.forEach(badge => {
+                badge.textContent = count;
+            });
+            
+            // Store in sessionStorage for cross-page updates
+            sessionStorage.setItem('cart_count', count);
+            
+            // Dispatch custom event for other components
+            window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { count: count } }));
+        }
+
+
+
+
 
         // Toast notification function
         function showToast(title, message, type) {

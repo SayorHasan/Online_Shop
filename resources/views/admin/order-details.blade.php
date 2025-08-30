@@ -57,7 +57,7 @@
                         @if($order->payment_status == 'pending')
                             <span class="badge bg-warning">Pending</span>
                         @elseif($order->payment_status == 'paid')
-                            <span class="badge bg-success">Paid</span>
+                            <span class="badge" style="background: #000; color: #fff; font-weight: bold;">Paid</span>
                         @elseif($order->payment_status == 'failed')
                             <span class="badge bg-danger">Failed</span>
                         @else
@@ -71,7 +71,7 @@
                         @if($order->status == 'ordered')
                             <span class="badge bg-warning">Ordered</span>
                         @elseif($order->status == 'delivered')
-                            <span class="badge bg-success">Delivered</span>
+                            <span class="badge" style="background: #000; color: #fff; font-weight: bold;">Delivered</span>
                         @elseif($order->status == 'canceled')
                             <span class="badge bg-danger">Canceled</span>
                         @else

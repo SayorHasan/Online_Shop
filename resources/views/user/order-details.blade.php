@@ -31,9 +31,14 @@
             <div class="col-lg-10">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="page-title">Order Details</h2>
-                    <a href="{{ route('user.orders') }}" class="btn-back-orders" role="button" aria-label="Back to Orders">
-                        <i class="fa fa-arrow-left"></i><span>Back to Orders</span>
-                    </a>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('user.order.invoice', $order->id) }}" class="btn-back-orders" role="button" aria-label="Download Invoice">
+                            <i class="fa fa-file-pdf-o"></i><span>Download Invoice</span>
+                        </a>
+                        <a href="{{ route('user.orders') }}" class="btn-back-orders" role="button" aria-label="Back to Orders">
+                            <i class="fa fa-arrow-left"></i><span>Back to Orders</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="order-details p-4">
@@ -43,7 +48,7 @@
                             <table class="table table-borderless">
                                 <tr>
                                     <td><strong>Order Number:</strong></td>
-                                    <td>{{ '1' . str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</td>
+                                    <td>{{ $order->order_number }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Order Date:</strong></td>
@@ -55,7 +60,7 @@
                                         @if($order->status == 'ordered')
                                             <span class="badge bg-warning">Ordered</span>
                                         @elseif($order->status == 'delivered')
-                                            <span class="badge bg-success">Delivered</span>
+                                            <span class="badge" style="background: #000; color: #fff; font-weight: bold;">Delivered</span>
                                         @elseif($order->status == 'canceled')
                                             <span class="badge bg-danger">Canceled</span>
                                         @else
@@ -77,7 +82,7 @@
                                         @if($order->payment_status == 'pending')
                                             <span class="badge bg-warning">Pending</span>
                                         @elseif($order->payment_status == 'paid')
-                                            <span class="badge bg-success">Paid</span>
+                                            <span class="badge" style="background: #000; color: #fff; font-weight: bold;">Paid</span>
                                         @elseif($order->payment_status == 'failed')
                                             <span class="badge bg-danger">Failed</span>
                                         @else

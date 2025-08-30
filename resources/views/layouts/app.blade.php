@@ -24,6 +24,267 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert.min.css') }}" type="text/css">
+    
+    <!-- Professional Design System CSS -->
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --danger-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #4facfe;
+            --success-color: #43e97b;
+            --warning-color: #fa709a;
+            --danger-color: #ff9a9e;
+            
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --text-light: #a0aec0;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --bg-tertiary: #edf2f7;
+            --bg-dark: #2d3748;
+            
+            --border-color: #e2e8f0;
+            --border-light: #f1f5f9;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s ease;
+            --transition-slow: all 0.5s ease;
+        }
+        
+        /* Global Professional Styling */
+        body {
+            font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+        
+        /* Professional Button System */
+        .btn {
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.025em;
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-outline-primary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Professional Card System */
+        .card {
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+            background: var(--bg-primary);
+        }
+        
+        /* Professional Form System */
+        .form-control {
+            border-radius: var(--radius-md);
+            border: 2px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* Professional Navigation */
+        .navbar {
+            background: var(--bg-primary);
+            box-shadow: var(--shadow-sm);
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color);
+            background: var(--bg-secondary);
+        }
+        
+        /* Professional Badge System */
+        .badge {
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+        }
+        
+        /* Professional Alert System */
+        .alert {
+            border-radius: var(--radius-md);
+            border: none;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .alert-info {
+            background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+            color: #0c4a6e;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #166534;
+        }
+        
+        .alert-warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #991b1b;
+        }
+        
+        /* Professional Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
+        
+        /* Professional Grid System */
+        .row {
+            margin: 0 -0.75rem;
+        }
+        
+        .col, .col-md-3, .col-md-4, .col-md-6, .col-lg-3, .col-lg-4, .col-lg-6, .col-lg-8, .col-lg-9 {
+            padding: 0 0.75rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 0.625rem 1.25rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section-header h2 {
+                font-size: 1.75rem;
+            }
+            
+            .card-body, .card-header {
+                padding: 1rem;
+            }
+        }
+    </style>
     @stack("styles")
 </head>
 <body class="gradient-bg">
@@ -263,30 +524,130 @@
 
     .logo__image {
       max-width: 220px;
+      height: auto;
+      transition: max-width 0.3s ease;
+    }
+
+    /* Responsive logo sizing */
+    @media (max-width: 1200px) {
+      .logo__image {
+        max-width: 180px;
+      }
+    }
+    
+    @media (max-width: 992px) {
+      .logo__image {
+        max-width: 160px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .logo__image {
+        max-width: 140px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .logo__image {
+        max-width: 120px;
+      }
+    }
+
+    /* Header layout fixes */
+    .header-desk {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .navigation {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .navigation__list {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .header-tools {
+      flex-shrink: 0;
+    }
+
+    /* Prevent content from sitting under the transparent header */
+    .header-spacer { height: 96px; }
+    .header-spacer-mobile { height: 64px; }
+    @media (min-width: 992px) {
+      .header-spacer-mobile { display: none; }
+    }
+    @media (max-width: 991.98px) {
+      .header-spacer { display: none; }
+    }
+    
+    /* Mobile header improvements */
+    .header-mobile .logo {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .header-mobile .logo__image {
+      max-width: 140px;
+      margin: 0 auto;
+    }
+    
+    /* Extra small screen fixes */
+    @media (max-width: 480px) {
+      .header-mobile .logo__image {
+        max-width: 100px;
+      }
+      
+      .header-mobile .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+      
+      .mobile-nav-activator {
+        margin-right: 0.5rem;
+      }
+      
+      .header-tools__cart {
+        margin-left: 0.5rem;
+      }
+    }
+    
+    /* Ensure navigation doesn't wrap under logo */
+    .navigation__list {
+      justify-content: center;
+    }
+    
+    .navigation__item {
+      white-space: nowrap;
     }
   </style>
-  <div class="header-mobile header_sticky">
-    <div class="container d-flex align-items-center h-100">
-      <a class="mobile-nav-activator d-block position-relative" href="#">
-        <svg class="nav-icon" width="25" height="18" viewBox="0 0 25 18" xmlns="http://www.w3.org/2000/svg">
-          <use href="#icon_nav" />
-        </svg>
-        <button class="btn-close-lg position-absolute top-0 start-0 w-100"></button>
-      </a>
+      <div class="header-mobile header_sticky">
+      <div class="container d-flex align-items-center justify-content-between h-100">
+        <a class="mobile-nav-activator d-block position-relative flex-shrink-0" href="#">
+          <svg class="nav-icon" width="25" height="18" viewBox="0 0 25 18" xmlns="http://www.w3.org/2000/svg">
+            <use href="#icon_nav" />
+          </svg>
+          <button class="btn-close-lg position-absolute top-0 start-0 w-100"></button>
+        </a>
 
-      <div class="logo">
-        <a href="{{route('home.index')}}">
-          <img src="{{ asset('assets/images/logo.png')}}" alt="Uomo" class="logo__image d-block" />
+        <div class="logo flex-grow-1 text-center">
+          <a href="{{route('home.index')}}">
+            <img src="{{ asset('assets/images/logo.png')}}" alt="Uomo" class="logo__image d-block mx-auto" />
+          </a>
+        </div>
+
+        <a href="#" class="header-tools__item header-tools__cart js-open-aside flex-shrink-0" data-aside="cartDrawer">
+          <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <use href="#icon_cart" />
+          </svg>
+          <span class="cart-amount d-block position-absolute js-cart-items-count" id="headerCartCount">{{ Session::get('cart', []) ? count(Session::get('cart', [])) : 0 }}</span>
         </a>
       </div>
-
-      <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
-        <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <use href="#icon_cart" />
-        </svg>
-        <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
-      </a>
-    </div>
 
     <nav
       class="header-mobile__navigation navigation d-flex flex-column w-100 position-absolute top-100 bg-body overflow-auto">
@@ -314,10 +675,13 @@
         <div class="overflow-hidden">
           <ul class="navigation__list list-unstyled position-relative">
             <li class="navigation__item">
-              <a href="{{route('home.index')}}" class="navigation__link">Home</a>
+              <a href="{{ route('home.index') }}" class="navigation__link">Home</a>
             </li>
             <li class="navigation__item">
-              <a href="{{ $shopRoute }}" class="navigation__link">Shop</a>
+              <a href="{{ route('user.shop') }}" class="navigation__link">Shop</a>
+            </li>
+            <li class="navigation__item">
+              <a href="{{ route('user.index') }}" class="navigation__link">Account</a>
             </li>
             <li class="navigation__item">
               <a href="{{ route('user.cart') }}" class="navigation__link">Cart</a>
@@ -326,10 +690,10 @@
               <a href="{{ route('user.coupons') }}" class="navigation__link">Coupons</a>
             </li>
             <li class="navigation__item">
-              <a href="about.html" class="navigation__link">About</a>
+              <a href="{{ route('static.about') }}" class="navigation__link">About</a>
             </li>
             <li class="navigation__item">
-              <a href="contact.html" class="navigation__link">Contact</a>
+              <a href="{{ route('static.contact') }}" class="navigation__link">Contact</a>
             </li>
           </ul>
         </div>
@@ -397,28 +761,31 @@
   <header id="header" class="header header-fullwidth header-transparent-bg">
     <div class="container">
       <div class="header-desk header-desk_type_1">
-        <div class="logo">
+        <div class="logo flex-shrink-0">
           <a href="{{route('home.index')}}">
             <img src="{{ asset('assets/images/logo.png')}}" alt="Uomo" class="logo__image d-block" />
           </a>
         </div>
 
-        <nav class="navigation">
-          <ul class="navigation__list list-unstyled d-flex">
+        <nav class="navigation flex-grow-1">
+          <ul class="navigation__list list-unstyled d-flex flex-wrap">
             <li class="navigation__item">
-              <a href="{{route('home.index')}}" class="navigation__link">Home</a>
+              <a href="{{ route('home.index') }}" class="navigation__link">Home</a>
             </li>
             <li class="navigation__item">
-              <a href="{{ $shopRoute }}" class="navigation__link">Shop</a>
+              <a href="{{ route('user.shop') }}" class="navigation__link">Shop</a>
+            </li>
+            <li class="navigation__item">
+              <a href="{{ route('user.index') }}" class="navigation__link">Account</a>
             </li>
             <li class="navigation__item">
               <a href="{{ route('user.cart') }}" class="navigation__link">Cart</a>
             </li>
             <li class="navigation__item">
-              <a href="about.html" class="navigation__link">About</a>
+              <a href="{{ route('static.about') }}" class="navigation__link">About</a>
             </li>
             <li class="navigation__item">
-              <a href="contact.html" class="navigation__link">Contact</a>
+              <a href="{{ route('static.contact') }}" class="navigation__link">Contact</a>
             </li>
           </ul>
         </nav>
@@ -454,10 +821,10 @@
                   <div class="sub-menu search-suggestion">
                     <h6 class="sub-menu__title fs-base">Quicklinks</h6>
                     <ul class="sub-menu__list list-unstyled">
-                      <li class="sub-menu__item"><a href="shop2.html" class="menu-link menu-link_us-s">New Arrivals</a>
+                      <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s">Shop All</a>
                       </li>
                       <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Dresses</a></li>
-                      <li class="sub-menu__item"><a href="shop3.html" class="menu-link menu-link_us-s">Accessories</a>
+                      <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Accessories</a>
                       </li>
                       <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Footwear</a></li>
                       <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Sweatshirt</a></li>
@@ -489,39 +856,35 @@
               </a>
             </div>
           @endguest
-          <a href="wishlist.html" class="header-tools__item">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <use href="#icon_heart" />
-            </svg>
-          </a>
-
-          <a href="cart.html" class="header-tools__item header-tools__cart">
+          <a href="{{ route('user.cart') }}" class="header-tools__item header-tools__cart">
             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <use href="#icon_cart" />
             </svg>
-            <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
+            <span class="cart-amount d-block position-absolute js-cart-items-count" id="userCartCount">{{ Session::get('cart', []) ? count(Session::get('cart', [])) : 0 }}</span>
           </a>
         </div>
       </div>
     </div>
   </header>
+  <div class="header-spacer"></div>
+  <div class="header-spacer-mobile"></div>
   @yield("content")
 
 
   <hr class="mt-5 text-secondary" />
-  <footer class="footer footer_type_2">
+  <footer class="footer footer_type_2" style="background: var(--bg-dark); color: white; margin-top: 4rem;">
     <div class="footer-middle container">
       <div class="row row-cols-lg-5 row-cols-2">
         <div class="footer-column footer-store-info col-12 mb-4 mb-lg-0">
-          <div class="logo">
+          <div class="logo mb-4">
             <a href="{{route('home.index')}}">
-              <img src="{{ asset('assets/images/logo.png')}}" alt="SurfsideMedia" class="logo__image d-block" />
+              <img src="{{ asset('assets/images/logo.png')}}" alt="SurfsideMedia" class="logo__image d-block" style="filter: brightness(0) invert(1);" />
             </a>
           </div>
-          <p class="footer-address">123 Beach Avenue Surfside City, CA 90743 United States</p>
-          <p class="m-0"><strong class="fw-medium">sayor@gmail.com</strong></p>
-          <p><strong class="fw-medium">+880 000-000-0000</strong></p>
+          <p class="footer-address mb-3" style="color: white; font-size: 1rem;">123 Beach Avenue Surfside City, CA 90743 United States</p>
+          <p class="m-0 mb-2" style="color: white; font-size: 1rem;"><strong class="fw-medium">sayor@gmail.com</strong></p>
+          <p class="mb-4" style="color: white; font-size: 1rem;"><strong class="fw-medium">+880 000-000-0000</strong></p>
 
           <ul class="social-links list-unstyled d-flex flex-wrap mb-0">
             <li>
@@ -569,59 +932,59 @@
         </div>
 
         <div class="footer-column footer-menu mb-4 mb-lg-0">
-          <h6 class="sub-menu__title text-uppercase">Company</h6>
+          <h6 class="sub-menu__title text-uppercase" style="color: white;">Company</h6>
           <ul class="sub-menu__list list-unstyled">
-            <li class="sub-menu__item"><a href="about-2.html" class="menu-link menu-link_us-s">About Us</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Careers</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Affiliates</a></li>
-            <li class="sub-menu__item"><a href="blog_list1.html" class="menu-link menu-link_us-s">Blog</a></li>
-            <li class="sub-menu__item"><a href="contact-2.html" class="menu-link menu-link_us-s">Contact Us</a></li>
+            <li class="sub-menu__item"><a href="{{ route('static.about') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">About Us</a></li>
+            <li class="sub-menu__item"><a href="{{ route('home.index') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Careers</a></li>
+            <li class="sub-menu__item"><a href="{{ route('home.index') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Affiliates</a></li>
+            <li class="sub-menu__item"><a href="{{ route('home.index') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Blog</a></li>
+            <li class="sub-menu__item"><a href="{{ route('static.contact') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Contact Us</a></li>
           </ul>
         </div>
 
         <div class="footer-column footer-menu mb-4 mb-lg-0">
-          <h6 class="sub-menu__title text-uppercase">Shop</h6>
+          <h6 class="sub-menu__title text-uppercase" style="color: white;">Shop</h6>
           <ul class="sub-menu__list list-unstyled">
-            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s">Shop All</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">New Arrivals</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Accessories</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Men</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Women</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Shop All</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">New Arrivals</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Accessories</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Men</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Women</a></li>
           </ul>
         </div>
 
         <div class="footer-column footer-menu mb-4 mb-lg-0">
-          <h6 class="sub-menu__title text-uppercase">Help</h6>
+          <h6 class="sub-menu__title text-uppercase" style="color: white;">Help</h6>
           <ul class="sub-menu__list list-unstyled">
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Customer Service</a></li>
-            <li class="sub-menu__item"><a href="account_dashboard.html" class="menu-link menu-link_us-s">My Account</a>
+            <li class="sub-menu__item"><a href="{{ route('static.contact') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Customer Service</a></li>
+            <li class="sub-menu__item"><a href="{{ route('user.index') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">My Account</a>
             </li>
-            <li class="sub-menu__item"><a href="store_location.html" class="menu-link menu-link_us-s">Find a Store</a>
+            <li class="sub-menu__item"><a href="{{ route('home.index') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Find a Store</a>
             </li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Legal & Privacy</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Gift Card</a></li>
+            <li class="sub-menu__item"><a href="{{ route('static.privacy') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Legal & Privacy</a></li>
+            <li class="sub-menu__item"><a href="{{ route('home.index') }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Gift Card</a></li>
           </ul>
         </div>
 
         <div class="footer-column footer-menu mb-4 mb-lg-0">
-          <h6 class="sub-menu__title text-uppercase">Categories</h6>
+          <h6 class="sub-menu__title text-uppercase" style="color: white;">Categories</h6>
           <ul class="sub-menu__list list-unstyled">
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shirts</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Jeans</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shoes</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Bags</a></li>
-            <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Shop All</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Shirts</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Jeans</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Shoes</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Bags</a></li>
+            <li class="sub-menu__item"><a href="{{ $shopRoute }}" class="menu-link menu-link_us-s" style="color: white; text-decoration: none;">Shop All</a></li>
           </ul>
         </div>
       </div>
     </div>
 
-    <div class="footer-bottom">
+    <div class="footer-bottom" style="background: rgba(0,0,0,0.2); padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1);">
       <div class="container d-md-flex align-items-center">
-        <span class="footer-copyright me-auto">©2025</span>
-        <div class="footer-settings d-md-flex align-items-center">
-          <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms-conditions.html">Terms &amp;
-            Conditions</a>
+        <span class="footer-copyright me-auto" style="color: var(--text-light);">©2025 OnlineShop. All rights reserved.</span>
+        <div class="footer-settings d-md-flex align-items-center gap-4">
+          <a href="{{ route('static.privacy') }}" style="color: var(--text-light); text-decoration: none; transition: var(--transition);">Privacy Policy</a>
+          <a href="{{ route('static.terms') }}" style="color: var(--text-light); text-decoration: none; transition: var(--transition);">Terms &amp; Conditions</a>
         </div>
       </div>
     </div>
@@ -674,6 +1037,57 @@
   <script src="{{ asset('assets/js/plugins/swiper.min.js')}}"></script>
   <script src="{{ asset('assets/js/plugins/countdown.js')}}"></script>
   <script src="{{ asset('assets/js/theme.js')}}"></script>
+  <script src="{{ asset('js/sweetalert.min.js') }}"></script>
   @stack("scripts")
+  
+  <style>
+    .cart-amount {
+      transition: transform 0.2s ease;
+    }
+  </style>
+  
+  <script>
+    // Function to update cart count in all locations
+    function updateCartCount(count) {
+      const headerCount = document.getElementById('headerCartCount');
+      const userCount = document.getElementById('userCartCount');
+      
+      if (headerCount) {
+        headerCount.innerText = count;
+        // Add animation effect
+        headerCount.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+          headerCount.style.transform = 'scale(1)';
+        }, 200);
+      }
+      if (userCount) {
+        userCount.innerText = count;
+        // Add animation effect
+        userCount.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+          userCount.style.transform = 'scale(1)';
+        }, 200);
+      }
+    }
+    
+    // Auto-refresh cart count every 10 seconds
+    setInterval(function() {
+      fetch('{{ route('cart.count') }}')
+        .then(response => response.json())
+        .then(data => {
+          updateCartCount(data.count);
+        })
+        .catch(error => {
+          console.log('Cart count update failed:', error);
+        });
+    }, 10000);
+    
+    // Listen for cart updates from other pages
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'cart_count') {
+        updateCartCount(e.newValue);
+      }
+    });
+  </script>
 </body>
 </html>

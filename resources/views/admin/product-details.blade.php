@@ -344,7 +344,7 @@
                         <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-warning">
                             <i class="icon-edit"></i>Edit Product
                         </a>
-                        <a href="{{ route('user.shop') }}?category={{ $product->category_id }}&highlight={{ $product->id }}" 
+                        <a href="{{ route('admin.shop') }}?category={{ $product->category_id }}" 
                            target="_blank" class="btn btn-info">
                             <i class="icon-external-link"></i>View in Shop
                         </a>

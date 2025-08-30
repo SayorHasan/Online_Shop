@@ -57,7 +57,15 @@ class CartController extends Controller
         $productId = $request->product_id;
 
         if (isset($cart[$productId])) {
-            $cart[$productId]['quantity'] += $request->quantity;
+            // Check if adding more would exceed available stock
+            $newTotalQuantity = $cart[$productId]['quantity'] + $request->quantity;
+            if ($newTotalQuantity > $product->quantity) {
+                return response()->json([
+                    'success' => false, 
+                    'message' => "Cannot add more items. You already have {$cart[$productId]['quantity']} in cart, and only {$product->quantity} available in stock."
+                ]);
+            }
+            $cart[$productId]['quantity'] = $newTotalQuantity;
         } else {
             $cart[$productId] = [
                 'id' => $product->id,
@@ -72,10 +80,17 @@ class CartController extends Controller
 
         Session::put('cart', $cart);
 
+        // Calculate total quantity
+        $totalQuantity = 0;
+        foreach ($cart as $item) {
+            $totalQuantity += $item['quantity'];
+        }
+
         return response()->json([
             'success' => true, 
             'message' => 'Product added to cart successfully',
-            'cart_count' => count($cart)
+            'cart_count' => count($cart),
+            'total_quantity' => $totalQuantity
         ]);
     }
 
@@ -149,6 +164,15 @@ class CartController extends Controller
     public function getCartCount()
     {
         $cart = Session::get('cart', []);
-        return response()->json(['count' => count($cart)]);
+        $totalQuantity = 0;
+        
+        foreach ($cart as $item) {
+            $totalQuantity += $item['quantity'];
+        }
+        
+        return response()->json([
+            'count' => count($cart), // Number of unique products
+            'total_quantity' => $totalQuantity // Total quantity of all items
+        ]);
     }
 }

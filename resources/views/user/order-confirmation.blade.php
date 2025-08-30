@@ -94,4 +94,17 @@
         </div>
     </section>
 </main>
+
+@push('scripts')
+<script>
+    // Update cart counts to 0 since cart was cleared after order
+    document.addEventListener('DOMContentLoaded', function() {
+        const headerCount = document.getElementById('headerCartCount');
+        const userCount = document.getElementById('userCartCount');
+        
+        if (headerCount) headerCount.innerText = '0';
+        if (userCount) userCount.innerText = '0';
+    });
+</script>
+@endpush
 @endsection

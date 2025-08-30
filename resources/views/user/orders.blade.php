@@ -1,48 +1,176 @@
 @extends('layouts.app')
 @section('content')
 <style>
-    /* High-contrast black & white theme for orders table */
-    .table { color: #111; }
-    .table thead th {
-        background-color: #000 !important;
-        color: #fff !important;
-        padding: 0.9rem 1.2rem !important;
-        border-color: #000 !important;
-        text-transform: none;
-        font-weight: 700;
-        letter-spacing: .2px;
+    /* Professional Orders Page Styling */
+    .orders-container {
+        background: var(--bg-primary);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
+        overflow: hidden;
     }
+    
+    .orders-header {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .orders-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+    }
+    
+    .orders-header h2 {
+        position: relative;
+        z-index: 2;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .orders-header p {
+        position: relative;
+        z-index: 2;
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 0;
+    }
+    
+    .table {
+        color: var(--text-primary);
+        margin-bottom: 0;
+    }
+    
+    .table thead th {
+        background: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+        padding: 1.25rem 1rem !important;
+        border-color: var(--border-color) !important;
+        text-transform: none;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+    
     .table-bordered > :not(caption) > tr > th, 
     .table-bordered > :not(caption) > tr > td {
         border-width: 1px;
-        border-color: #000 !important;
+        border-color: var(--border-color) !important;
     }
-    .table tbody td { padding: .9rem 1.2rem !important; }
-    .table-striped tbody tr:nth-of-type(odd) { background-color: #fafafa; }
-    .table-striped tbody tr:nth-of-type(even) { background-color: #fff; }
-
-    /* Unify badges to black & white for accessibility */
-    .badge { border-radius: 6px; font-weight: 600; padding: .35rem .6rem; }
-    .badge.bg-warning, .badge.bg-success, .badge.bg-danger, .badge.bg-secondary {
-        background-color: #000 !important; color: #fff !important;
+    
+    .table tbody td { 
+        padding: 1.25rem 1rem !important;
+        vertical-align: middle;
+        text-align: center;
+    }
+    
+    .table-striped tbody tr:nth-of-type(odd) { 
+        background-color: var(--bg-primary); 
+    }
+    
+    .table-striped tbody tr:nth-of-type(even) { 
+        background-color: var(--bg-secondary); 
+    }
+    
+    .table tbody tr:hover {
+        background-color: var(--bg-tertiary);
+        transition: var(--transition);
     }
 
-    /* Eye icon cell alignment */
-    .list-icon-function .item.eye i { color: #000; }
+    /* Professional Badge System */
+    .badge { 
+        border-radius: var(--radius-sm); 
+        font-weight: 600; 
+        padding: 0.5rem 0.75rem; 
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .badge.bg-warning {
+        background: var(--warning-gradient) !important;
+        color: white !important;
+    }
+    
+    .badge.bg-success {
+        background: var(--success-gradient) !important;
+        color: white !important;
+    }
+    
+    .badge.bg-danger {
+        background: var(--danger-gradient) !important;
+        color: white !important;
+    }
+    
+    .badge.bg-secondary {
+        background: var(--bg-dark) !important;
+        color: white !important;
+    }
 
-    /* Title */
-    .page-title { color: #000; font-weight: 800; }
+    /* Professional View Icon */
+    .list-icon-function .item.eye {
+        background: var(--primary-gradient);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        cursor: pointer;
+    }
+    
+    .list-icon-function .item.eye:hover {
+        transform: scale(1.1);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .list-icon-function .item.eye i {
+        color: white;
+        font-size: 1rem;
+    }
+    
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--text-muted);
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
 </style>
 <main class="pt-90">
     <div class="mb-4 pb-4"></div>
     <section class="my-account container">
-        <h2 class="page-title">Orders</h2>
-        <div class="row">
-            <div class="col-lg-2">
-                @include('user.account-nav')
+        <div class="orders-container">
+            <div class="orders-header">
+                <h2>My Orders</h2>
+                <p>Track your order history and current status</p>
             </div>
-            <div class="col-lg-10">
-                <div class="wg-table table-all-user">
+            
+            <div class="row m-0">
+                <div class="col-lg-2 p-0">
+                    @include('user.account-nav')
+                </div>
+                <div class="col-lg-10 p-4">
+                    <div class="wg-table table-all-user">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered">
                             <thead>
@@ -65,7 +193,7 @@
                                         @if($order->status == 'ordered')
                                             <span class="badge bg-warning">Ordered</span>
                                         @elseif($order->status == 'delivered')
-                                            <span class="badge bg-success">Delivered</span>
+                                            <span class="badge" style="background: #000; color: #fff; font-weight: bold;">Delivered</span>
                                         @elseif($order->status == 'canceled')
                                             <span class="badge bg-danger">Canceled</span>
                                         @else
@@ -77,7 +205,7 @@
                                         @if($order->payment_status == 'pending')
                                             <span class="badge bg-warning">Pending</span>
                                         @elseif($order->payment_status == 'paid')
-                                            <span class="badge bg-success">Paid</span>
+                                            <span class="badge" style="background: #000; color: #fff; font-weight: bold;">Paid</span>
                                         @elseif($order->payment_status == 'failed')
                                             <span class="badge bg-danger">Failed</span>
                                         @else
@@ -97,7 +225,14 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="7" class="text-center">No orders found</td>
+                                    <td colspan="7">
+                                        <div class="empty-state">
+                                            <i class="icon-package"></i>
+                                            <h5>No Orders Yet</h5>
+                                            <p>Start shopping to see your orders here</p>
+                                            <a href="{{ route('user.shop') }}" class="btn btn-primary">Start Shopping</a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforelse                                  
                             </tbody>

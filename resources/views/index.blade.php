@@ -92,7 +92,10 @@
 <div class="container mw-1620 bg-white border-radius-10">
   <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
   <section class="category-carousel container">
-    <h2 class="section-title text-center mb-3 pb-xl-2 mb-xl-4">You Might Like</h2>
+    <div class="section-header">
+      <h2>You Might Like</h2>
+      <p>Discover our curated collection of trending categories</p>
+    </div>
 
     <div class="position-relative">
       <div class="swiper-container js-swiper-slider" data-settings='{
@@ -134,10 +137,12 @@
         }'>
         <div class="swiper-wrapper">
           <div class="swiper-slide">
-            <img loading="lazy" class="w-100 h-auto mb-3" src="{{asset('assets/images/home/demo3/category_1')}}.png" width="124"
-              height="124" alt="" />
-            <div class="text-center">
-              <a href="#" class="menu-link fw-medium">Women<br />Tops</a>
+            <div class="category-card" style="background: var(--bg-primary); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); transition: var(--transition); cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='var(--shadow-xl)'; this.style.borderColor='var(--primary-color)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-md)'; this.style.borderColor='var(--border-color)'">
+                <img loading="lazy" class="w-100 h-auto mb-3" src="{{asset('assets/images/home/demo3/category_1')}}.png" width="124"
+                  height="124" alt="" style="border-radius: var(--radius-md);" />
+                <div class="text-center">
+                  <a href="#" class="menu-link fw-medium" style="color: var(--text-primary); text-decoration: none; font-weight: 600;">Women<br />Tops</a>
+                </div>
             </div>
           </div>
           <div class="swiper-slide">
@@ -280,7 +285,7 @@
             <div class="swiper-wrapper">
               <div class="swiper-slide product-card product-card_style3">
                 <div class="pc__img-wrapper">
-                  <a href="details.html">
+                  <a href="{{ route('user.shop') }}">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-0-1')}}.jpg" width="258" height="313"
                       alt="Cropped Faux leather Jacket" class="pc__img">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-0-2')}}.jpg" width="258" height="313"
@@ -289,7 +294,7 @@
                 </div>
 
                 <div class="pc__info position-relative">
-                  <h6 class="pc__title"><a href="details.html">Cropped Faux Leather Jacket</a></h6>
+                  <h6 class="pc__title"><a href="{{ route('user.shop') }}">Cropped Faux Leather Jacket</a></h6>
                   <div class="product-card__price d-flex">
                     <span class="money price text-secondary">$29</span>
                   </div>
@@ -317,7 +322,7 @@
               </div>
               <div class="swiper-slide product-card product-card_style3">
                 <div class="pc__img-wrapper">
-                  <a href="details.html">
+                  <a href="{{ route('user.shop') }}">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-1-1')}}.jpg" width="258" height="313"
                       alt="Cropped Faux leather Jacket" class="pc__img">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-1-2')}}.jpg" width="258" height="313"
@@ -326,7 +331,7 @@
                 </div>
 
                 <div class="pc__info position-relative">
-                  <h6 class="pc__title"><a href="details.html">Calvin Shorts</a></h6>
+                  <h6 class="pc__title"><a href="{{ route('user.shop') }}">Calvin Shorts</a></h6>
                   <div class="product-card__price d-flex">
                     <span class="money price text-secondary">$62</span>
                   </div>
@@ -354,7 +359,7 @@
               </div>
               <div class="swiper-slide product-card product-card_style3">
                 <div class="pc__img-wrapper">
-                  <a href="details.html">
+                  <a href="{{ route('user.shop') }}">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-2-1')}}.jpg" width="258" height="313"
                       alt="Cropped Faux leather Jacket" class="pc__img">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-2-2')}}.jpg" width="258" height="313"
@@ -363,7 +368,7 @@
                 </div>
 
                 <div class="pc__info position-relative">
-                  <h6 class="pc__title"><a href="details.html">Kirby T-Shirt</a></h6>
+                  <h6 class="pc__title"><a href="{{ route('user.shop') }}">Kirby T-Shirt</a></h6>
                   <div class="product-card__price d-flex">
                     <span class="money price text-secondary">$62</span>
                   </div>
@@ -391,7 +396,7 @@
               </div>
               <div class="swiper-slide product-card product-card_style3">
                 <div class="pc__img-wrapper">
-                  <a href="details.html">
+                  <a href="{{ route('user.shop') }}">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-3-1')}}.jpg" width="258" height="313"
                       alt="Cropped Faux leather Jacket" class="pc__img">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-3-2')}}.jpg" width="258" height="313"
@@ -400,7 +405,7 @@
                 </div>
 
                 <div class="pc__info position-relative">
-                  <h6 class="pc__title"><a href="details.html">Cableknit Shawl</a></h6>
+                  <h6 class="pc__title"><a href="{{ route('user.shop') }}">Cableknit Shawl</a></h6>
                   <div class="product-card__price d-flex align-items-center">
                     <span class="money price-old">$129</span>
                     <span class="money price text-secondary">$99</span>
@@ -429,7 +434,7 @@
               </div>
               <div class="swiper-slide product-card product-card_style3">
                 <div class="pc__img-wrapper">
-                  <a href="details.html">
+                  <a href="{{ route('user.shop') }}">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-0-1')}}.jpg" width="258" height="313"
                       alt="Cropped Faux leather Jacket" class="pc__img">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-0-2')}}.jpg" width="258" height="313"
@@ -438,7 +443,7 @@
                 </div>
 
                 <div class="pc__info position-relative">
-                  <h6 class="pc__title"><a href="details.html">Cropped Faux Leather Jacket</a></h6>
+                  <h6 class="pc__title"><a href="{{ route('user.shop') }}">Cropped Faux Leather Jacket</a></h6>
                   <div class="product-card__price d-flex">
                     <span class="money price text-secondary">$29</span>
                   </div>
@@ -466,7 +471,7 @@
               </div>
               <div class="swiper-slide product-card product-card_style3">
                 <div class="pc__img-wrapper">
-                  <a href="details.html">
+                  <a href="{{ route('user.shop') }}">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-1-1')}}.jpg" width="258" height="313"
                       alt="Cropped Faux leather Jacket" class="pc__img">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-1-2')}}.jpg" width="258" height="313"
@@ -475,7 +480,7 @@
                 </div>
 
                 <div class="pc__info position-relative">
-                  <h6 class="pc__title"><a href="details.html">Calvin Shorts</a></h6>
+                  <h6 class="pc__title"><a href="{{ route('user.shop') }}">Calvin Shorts</a></h6>
                   <div class="product-card__price d-flex">
                     <span class="money price text-secondary">$62</span>
                   </div>
@@ -503,7 +508,7 @@
               </div>
               <div class="swiper-slide product-card product-card_style3">
                 <div class="pc__img-wrapper">
-                  <a href="details.html">
+                  <a href="{{ route('user.shop') }}">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-2-1')}}.jpg" width="258" height="313"
                       alt="Cropped Faux leather Jacket" class="pc__img">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-2-2')}}.jpg" width="258" height="313"
@@ -512,7 +517,7 @@
                 </div>
 
                 <div class="pc__info position-relative">
-                  <h6 class="pc__title"><a href="details.html">Kirby T-Shirt</a></h6>
+                  <h6 class="pc__title"><a href="{{ route('user.shop') }}">Kirby T-Shirt</a></h6>
                   <div class="product-card__price d-flex">
                     <span class="money price text-secondary">$62</span>
                   </div>
@@ -540,7 +545,7 @@
               </div>
               <div class="swiper-slide product-card product-card_style3">
                 <div class="pc__img-wrapper">
-                  <a href="details.html">
+                  <a href="{{ route('user.shop') }}">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-3-1')}}.jpg" width="258" height="313"
                       alt="Cropped Faux leather Jacket" class="pc__img">
                     <img loading="lazy" src="{{asset('assets/images/home/demo3/product-3-2')}}.jpg" width="258" height="313"
@@ -549,7 +554,7 @@
                 </div>
 
                 <div class="pc__info position-relative">
-                  <h6 class="pc__title"><a href="details.html">Cableknit Shawl</a></h6>
+                  <h6 class="pc__title"><a href="{{ route('user.shop') }}">Cableknit Shawl</a></h6>
                   <div class="product-card__price d-flex align-items-center">
                     <span class="money price-old">$129</span>
                     <span class="money price text-secondary">$99</span>
@@ -625,14 +630,14 @@
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
           <div class="pc__img-wrapper">
-            <a href="details.html">
+            <a href="{{ route('user.shop') }}">
               <img loading="lazy" src="{{asset('assets/images/home/demo3/product-4')}}.jpg" width="330" height="400"
                 alt="Cropped Faux leather Jacket" class="pc__img">
             </a>
           </div>
 
           <div class="pc__info position-relative">
-            <h6 class="pc__title"><a href="details.html">Cropped Faux Leather Jacket</a></h6>
+            <h6 class="pc__title"><a href="{{ route('user.shop') }}">Cropped Faux Leather Jacket</a></h6>
             <div class="product-card__price d-flex align-items-center">
               <span class="money price text-secondary">$29</span>
             </div>
@@ -661,14 +666,14 @@
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
           <div class="pc__img-wrapper">
-            <a href="details.html">
+            <a href="{{ route('user.shop') }}">
               <img loading="lazy" src="{{asset('assets/images/home/demo3/product-5')}}.jpg" width="330" height="400"
                 alt="Cropped Faux leather Jacket" class="pc__img">
             </a>
           </div>
 
           <div class="pc__info position-relative">
-            <h6 class="pc__title"><a href="details.html">Calvin Shorts</a></h6>
+            <h6 class="pc__title"><a href="{{ route('user.shop') }}">Calvin Shorts</a></h6>
             <div class="product-card__price d-flex align-items-center">
               <span class="money price text-secondary">$62</span>
             </div>
@@ -697,7 +702,7 @@
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
           <div class="pc__img-wrapper">
-            <a href="details.html">
+            <a href="{{ route('user.shop') }}">
               <img loading="lazy" src="{{asset('assets/images/home/demo3/product-6')}}.jpg" width="330" height="400"
                 alt="Cropped Faux leather Jacket" class="pc__img">
             </a>
@@ -705,7 +710,7 @@
           </div>
 
           <div class="pc__info position-relative">
-            <h6 class="pc__title"><a href="details.html">Kirby T-Shirt</a></h6>
+            <h6 class="pc__title"><a href="{{ route('user.shop') }}">Kirby T-Shirt</a></h6>
             <div class="product-card__price d-flex align-items-center">
               <span class="money price text-secondary">$17</span>
             </div>
@@ -734,7 +739,7 @@
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
           <div class="pc__img-wrapper">
-            <a href="details.html">
+            <a href="{{ route('user.shop') }}">
               <img loading="lazy" src="{{asset('assets/images/home/demo3/product-7')}}.jpg" width="330" height="400"
                 alt="Cropped Faux leather Jacket" class="pc__img">
             </a>
@@ -772,14 +777,14 @@
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
           <div class="pc__img-wrapper">
-            <a href="details.html">
+            <a href="{{ route('user.shop') }}">
               <img loading="lazy" src="{{asset('assets/images/home/demo3/product-8')}}.jpg" width="330" height="400"
                 alt="Cropped Faux leather Jacket" class="pc__img">
             </a>
           </div>
 
           <div class="pc__info position-relative">
-            <h6 class="pc__title"><a href="details.html">Cropped Faux Leather Jacket</a></h6>
+            <h6 class="pc__title"><a href="{{ route('user.shop') }}">Cropped Faux Leather Jacket</a></h6>
             <div class="product-card__price d-flex align-items-center">
               <span class="money price text-secondary">$29</span>
             </div>
@@ -808,14 +813,14 @@
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
           <div class="pc__img-wrapper">
-            <a href="details.html">
+            <a href="{{ route('user.shop') }}">
               <img loading="lazy" src="{{asset('assets/images/home/demo3/product-9')}}.jpg" width="330" height="400"
                 alt="Cropped Faux leather Jacket" class="pc__img">
             </a>
           </div>
 
           <div class="pc__info position-relative">
-            <h6 class="pc__title"><a href="details.html">Calvin Shorts</a></h6>
+            <h6 class="pc__title"><a href="{{ route('user.shop') }}">Calvin Shorts</a></h6>
             <div class="product-card__price d-flex align-items-center">
               <span class="money price text-secondary">$62</span>
             </div>
@@ -844,14 +849,14 @@
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
           <div class="pc__img-wrapper">
-            <a href="details.html">
+            <a href="{{ route('user.shop') }}">
               <img loading="lazy" src="{{asset('assets/images/home/demo3/product-10')}}.jpg" width="330" height="400"
                 alt="Cropped Faux leather Jacket" class="pc__img">
             </a>
           </div>
 
           <div class="pc__info position-relative">
-            <h6 class="pc__title"><a href="details.html">Kirby T-Shirt</a></h6>
+            <h6 class="pc__title"><a href="{{ route('user.shop') }}">Kirby T-Shirt</a></h6>
             <div class="product-card__price d-flex align-items-center">
               <span class="money price text-secondary">$17</span>
             </div>
@@ -880,7 +885,7 @@
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card product-card_style3 mb-3 mb-md-4 mb-xxl-5">
           <div class="pc__img-wrapper">
-            <a href="details.html">
+            <a href="{{ route('user.shop') }}">
               <img loading="lazy" src="{{asset('assets/images/home/demo3/product-11')}}.jpg" width="330" height="400"
                 alt="Cropped Faux leather Jacket" class="pc__img">
             </a>

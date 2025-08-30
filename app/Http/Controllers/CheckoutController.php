@@ -86,6 +86,29 @@ class CheckoutController extends Controller
             return redirect()->route('user.cart')->with('error', 'Your cart is empty');
         }
 
+        // Validate stock availability before processing order
+        $stockErrors = [];
+        foreach ($cartItems as $productId => $item) {
+            $product = \App\Models\Product::find($productId);
+            if (!$product) {
+                $stockErrors[] = "Product not found.";
+                continue;
+            }
+            
+            if (!$product->isInStock()) {
+                $stockErrors[] = "Product '{$product->name}' is out of stock.";
+                continue;
+            }
+            
+            if (!$product->hasStock($item['quantity'])) {
+                $stockErrors[] = "Product '{$product->name}' has only {$product->quantity} items available, but you're trying to order {$item['quantity']}.";
+            }
+        }
+        
+        if (!empty($stockErrors)) {
+            return back()->withErrors(['stock' => $stockErrors]);
+        }
+
         try {
             // Get or create address
             $address = null;
@@ -148,16 +171,63 @@ class CheckoutController extends Controller
                 'notes' => $request->notes ?? '',
             ]);
 
-            // Create order items
+            // Create order items and reduce stock
             foreach ($cartItems as $productId => $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $productId,
-                    'product_name' => $item['name'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
-                    'subtotal' => $item['price'] * $item['quantity'],
-                ]);
+                $product = \App\Models\Product::find($productId);
+                
+                // Double-check stock availability before reducing
+                if ($product && $product->hasStock($item['quantity'])) {
+                    // Reduce stock
+                    $product->reduceStock($item['quantity']);
+                    
+                    // Create order item
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $productId,
+                        'product_name' => $item['name'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                        'subtotal' => $item['price'] * $item['quantity'],
+                    ]);
+                    
+                    \Log::info("Stock reduced for product {$product->name}", [
+                        'product_id' => $productId,
+                        'quantity_reduced' => $item['quantity'],
+                        'remaining_stock' => $product->quantity
+                    ]);
+                } else {
+                    // This shouldn't happen due to validation above, but handle gracefully
+                    \Log::error("Stock validation failed for product {$productId} during order processing");
+                    throw new \Exception("Stock validation failed for one or more products");
+                }
+            }
+
+            // Notify admins via database notification
+            try {
+                $admins = \App\Models\User::where('utype','ADM')->get();
+                foreach ($admins as $admin) {
+                    $admin->notify(new \App\Notifications\NewOrderPlaced($order));
+                }
+            } catch (\Throwable $e) { \Log::warning('Admin notify failed: '.$e->getMessage()); }
+
+            // Auto-remove purchased items from wishlist for this user
+            try {
+                $user->wishlist()->detach(array_keys($cartItems));
+            } catch (\Throwable $e) {
+                \Log::warning('Wishlist detach after order failed', ['user_id' => $user->id, 'error' => $e->getMessage()]);
+            }
+
+            // Generate invoice and send email
+            try {
+                $order->load(['items','shippingAddress','user']);
+                $invoice = app(\App\Services\InvoiceService::class)->generateForOrder($order);
+                \Mail::send('emails.invoice', ['order' => $order], function($message) use ($order, $invoice) {
+                    $message->to($order->user->email, $order->user->name)
+                            ->subject('Order Confirmation '.$order->order_number);
+                    $message->attach($invoice['path'], ['as' => 'invoice-'.$order->order_number.(str_contains($invoice['mime'],'pdf')?'.pdf':'.html'), 'mime' => $invoice['mime']]);
+                });
+            } catch (\Throwable $e) {
+                \Log::error('Invoice/email failed: '.$e->getMessage());
             }
 
             // Clear cart and coupon session
@@ -174,6 +244,7 @@ class CheckoutController extends Controller
                            ->with('success', 'Order placed successfully!');
 
         } catch (\Exception $e) {
+            \Log::error('Order placement failed: ' . $e->getMessage());
             return back()->withErrors(['error' => 'Failed to place order. Please try again.']);
         }
     }

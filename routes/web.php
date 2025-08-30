@@ -17,31 +17,26 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
+// Static pages
+Route::view('/about', 'static.about')->name('static.about');
+Route::view('/contact', 'static.contact')->name('static.contact');
+Route::view('/privacy', 'static.privacy')->name('static.privacy');
+Route::view('/terms', 'static.terms')->name('static.terms');
+
 // Public product viewing route (no authentication required)
 Route::get('/product/{id}/view', [UserController::class, 'publicProductDetails'])->name('public.product.details');
 
-// Test route for debugging
-Route::get('/test-product/{id}', function($id) {
-    $product = \App\Models\Product::find($id);
-    if ($product) {
-        return response()->json([
-            'success' => true,
-            'product' => [
-                'id' => $product->id,
-                'name' => $product->name,
-                'stock_status' => $product->stock_status,
-                'category' => $product->category ? $product->category->name : 'N/A',
-                'brand' => $product->brand ? $product->brand->name : 'N/A'
-            ]
-        ]);
-    }
-    return response()->json(['success' => false, 'message' => 'Product not found']);
-});
+// (removed) debug route /test-product/{id}
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/account.dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/shop', [UserController::class, 'shop'])->name('user.shop');
     Route::get('/product/{id}', [UserController::class, 'productDetails'])->name('user.product.details');
+    Route::post('/product/{id}/review', [UserController::class, 'submitReview'])->name('user.product.review');
+    // Account details
+    Route::get('/account/details', [UserController::class, 'accountDetails'])->name('user.account.details');
+    Route::post('/account/details', [UserController::class, 'updateAccount'])->name('user.account.update');
+    Route::post('/account/password', [UserController::class, 'updatePassword'])->name('user.account.password');
     
     // Cart routes
     Route::get('/cart', [CartController::class, 'index'])->name('user.cart');
@@ -74,8 +69,14 @@ Route::middleware(['auth'])->group(function(){
     // Order routes
     Route::get('/orders', [UserController::class, 'orders'])->name('user.orders');
     Route::get('/order/{id}/details', [UserController::class, 'orderDetails'])->name('user.order.details');
+    Route::get('/order/{id}/invoice', [UserController::class, 'downloadInvoice'])->name('user.order.invoice');
     Route::put('/account-order/cancel-order',[UserController::class,'account_cancel_order'])->name('user.account_cancel_order');
 });
+
+    // Wishlist
+    Route::post('/wishlist/toggle', [UserController::class, 'toggleWishlist'])->name('wishlist.toggle');
+    Route::post('/wishlist/check', [UserController::class, 'checkWishlist'])->name('wishlist.check');
+    Route::get('/wishlist', [UserController::class, 'wishlist'])->name('user.wishlist');
 
 Route::middleware(['auth',AuthAdmin::class])->group(function(){
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -116,5 +117,9 @@ Route::middleware(['auth',AuthAdmin::class])->group(function(){
     Route::get('/admin/orders',[AdminController::class,'orders'])->name('admin.orders');
     Route::get('/admin/order/{id}/details',[AdminController::class,'order_details'])->name('admin.order.details');
     Route::put('/admin/order/status/update',[AdminController::class,'update_order_status'])->name('admin.order.status.update');
+    Route::get('/admin/orders/count',[AdminController::class,'ordersCount'])->name('admin.orders.count');
+    Route::get('/admin/notifications',[AdminController::class,'notifications'])->name('admin.notifications');
+    Route::get('/admin/notifications/count',[AdminController::class,'notificationsCount'])->name('admin.notifications.count');
+    Route::post('/admin/notifications/{id}/read',[AdminController::class,'markNotificationRead'])->name('admin.notifications.read');
     
 });

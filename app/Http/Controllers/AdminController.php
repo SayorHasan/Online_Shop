@@ -26,15 +26,28 @@ class AdminController extends Controller
         $pendingOrders = \App\Models\Order::where('status', 'ordered')->count();
         $deliveredOrders = \App\Models\Order::where('status', 'delivered')->count();
         $canceledOrders = \App\Models\Order::where('status', 'canceled')->count();
-        $totalAmount = \App\Models\Order::sum('total');
+        
+        // Earnings: only include delivered/paid
+        $totalAmount = \App\Models\Order::where(function($q){
+            $q->where('status','delivered')->orWhere('payment_status','paid');
+        })->sum('total');
         $pendingAmount = \App\Models\Order::where('status', 'ordered')->sum('total');
-        $deliveredAmount = \App\Models\Order::where('status', 'delivered')->sum('total');
+        $deliveredAmount = \App\Models\Order::where(function($q){
+            $q->where('status','delivered')->orWhere('payment_status','paid');
+        })->sum('total');
         $canceledAmount = \App\Models\Order::where('status', 'canceled')->sum('total');
+
+        // Recent orders for dashboard widgets
+        $recentOrders = \App\Models\Order::with(['user'])
+            ->orderBy('created_at','DESC')
+            ->take(5)
+            ->get();
         
         return view('admin.index', compact(
             'totalProducts', 'totalBrands', 'totalCategories', 'totalUsers',
             'totalOrders', 'pendingOrders', 'deliveredOrders', 'canceledOrders',
-            'totalAmount', 'pendingAmount', 'deliveredAmount', 'canceledAmount'
+            'totalAmount', 'pendingAmount', 'deliveredAmount', 'canceledAmount',
+            'recentOrders'
         ));
     }
     public function brands(){
@@ -253,7 +266,6 @@ class AdminController extends Controller
         'regular_price' => 'required',
         'sale_price' => 'required',
         'SKU' => 'required',
-        'stock_status' => 'required',
         'featured' => 'required',
         'quantity' => 'required',
         'image' => 'required|mimes:png,jpg,jpeg|max:2048',   
@@ -269,10 +281,10 @@ class AdminController extends Controller
         $product->regular_price = $request->regular_price;
         $product->sale_price = $request->sale_price;
         $product->SKU = $request->SKU;
-        $product->stock_status = $request->stock_status;
         $product->featured = $request->featured;
-        $product->quantity = $request->quantity;
         
+        // Use the Product model's setStock method to automatically set stock_status based on quantity
+        $product->setStock($request->quantity);
 
         $current_timestamp = Carbon::now()->timestamp;
 
@@ -373,7 +385,6 @@ public function GenerateProductThumbnailImage($image,$imageName){
                 'regular_price' => 'required|numeric|min:0',
                 'sale_price' => 'required|numeric|min:0',
                 'SKU' => 'required|string|max:255',
-                'stock_status' => 'required|in:in_stock,out_of_stock',
                 'featured' => 'required|in:0,1',
                 'quantity' => 'required|integer|min:0',
                 'image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
@@ -387,14 +398,6 @@ public function GenerateProductThumbnailImage($image,$imageName){
                 return redirect()->back()->with('error', 'Product not found');
             }
 
-            // Log the values being updated for debugging
-            \Log::info('Updating product', [
-                'id' => $request->id,
-                'stock_status' => $request->stock_status,
-                'featured' => $request->featured,
-                'quantity' => $request->quantity
-            ]);
-
             $product->name = $request->name;
             $product->slug = Str::slug($request->name);
             $product->short_description = $request->short_description;
@@ -402,9 +405,17 @@ public function GenerateProductThumbnailImage($image,$imageName){
             $product->regular_price = $request->regular_price;
             $product->sale_price = $request->sale_price;
             $product->SKU = $request->SKU;
-            $product->stock_status = $request->stock_status;
             $product->featured = $request->featured;
-            $product->quantity = $request->quantity;
+            
+            // Use the Product model's setStock method to automatically update stock_status based on quantity
+            $product->setStock($request->quantity);
+            
+            // Log the values being updated for debugging
+            \Log::info('Updated product stock', [
+                'id' => $request->id,
+                'quantity' => $request->quantity,
+                'stock_status' => $product->stock_status
+            ]);
 
             $current_timestamp = Carbon::now()->timestamp;
 
@@ -711,7 +722,48 @@ public function GenerateProductThumbnailImage($image,$imageName){
     {
         $order = \App\Models\Order::with(['user', 'shippingAddress', 'items.product.category', 'items.product.brand'])
                                   ->findOrFail($id);
+        // mark related notification as read for this admin
+        try {
+            foreach (auth()->user()->unreadNotifications as $note) {
+                if (($note->data['order_id'] ?? null) == $order->id) { $note->markAsRead(); }
+            }
+        } catch (\Throwable $e) {}
         return view('admin.order-details', compact('order'));
+    }
+
+    public function notifications()
+    {
+        $notifications = auth()->user()->notifications()->latest()->paginate(20);
+        return view('admin.notifications', compact('notifications'));
+    }
+
+    public function notificationsCount()
+    {
+        $notificationCount = auth()->user()->unreadNotifications()->count();
+        $orderCount = \App\Models\Order::where('status', 'ordered')->count();
+        
+        return response()->json([
+            'count' => $notificationCount,
+            'order_count' => $orderCount
+        ]);
+    }
+
+    public function ordersCount()
+    {
+        $orderCount = \App\Models\Order::where('status', 'ordered')->count();
+        
+        return response()->json([
+            'count' => $orderCount
+        ]);
+    }
+
+    public function markNotificationRead(string $id)
+    {
+        $notification = auth()->user()->notifications()->where('id', $id)->firstOrFail();
+        if (is_null($notification->read_at)) {
+            $notification->markAsRead();
+        }
+        return response()->json(['success' => true]);
     }
 
     public function update_order_status(Request $request)
@@ -721,7 +773,8 @@ public function GenerateProductThumbnailImage($image,$imageName){
             'order_status' => 'required|in:ordered,delivered,canceled'
         ]);
 
-        $order = \App\Models\Order::findOrFail($request->order_id);
+        $order = \App\Models\Order::with(['items.product'])->findOrFail($request->order_id);
+        $previousStatus = $order->status;
         $order->status = $request->order_status;
         
         if($request->order_status == 'delivered') {
@@ -731,10 +784,66 @@ public function GenerateProductThumbnailImage($image,$imageName){
         else if($request->order_status == 'canceled') {
             $order->canceled_date = \Carbon\Carbon::now();
             $order->payment_status = 'refunded';
+            
+            // Restore stock for canceled orders
+            foreach ($order->items as $item) {
+                if ($item->product) {
+                    $item->product->increaseStock($item->quantity);
+                    \Log::info("Stock restored for canceled order", [
+                        'order_id' => $order->id,
+                        'product_id' => $item->product_id,
+                        'product_name' => $item->product->name,
+                        'quantity_restored' => $item->quantity,
+                        'new_stock' => $item->product->quantity
+                    ]);
+                }
+            }
         }
         
         $order->save();
         
+        // If delivered, ensure purchased items are not lingering in wishlist
+        if ($request->order_status === 'delivered') {
+            try {
+                $productIds = $order->items()->pluck('product_id')->toArray();
+                $order->user->wishlist()->detach($productIds);
+            } catch (\Throwable $e) {
+                \Log::warning('Wishlist detach on delivered failed', ['order_id' => $order->id, 'error' => $e->getMessage()]);
+            }
+        }
+
+        // Force delete old invoice files before generating new ones
+        try {
+            $oldInvoicePath = storage_path('app/invoices/invoice-' . $order->order_number . '.pdf');
+            $oldInvoiceHtmlPath = storage_path('app/invoices/invoice-' . $order->order_number . '.html');
+            
+            if (file_exists($oldInvoicePath)) {
+                unlink($oldInvoicePath);
+                \Log::info('Deleted old PDF invoice: ' . $oldInvoicePath);
+            }
+            
+            if (file_exists($oldInvoiceHtmlPath)) {
+                unlink($oldInvoiceHtmlPath);
+                \Log::info('Deleted old HTML invoice: ' . $oldInvoiceHtmlPath);
+            }
+        } catch (\Throwable $e) {
+            \Log::warning('Failed to delete old invoice files: ' . $e->getMessage());
+        }
+
+        // Notify customer via email with optional invoice
+        try {
+            $order->load(['items','shippingAddress','user']);
+            // Always (re)generate invoice reflecting current status
+            $attach = app(\App\Services\InvoiceService::class)->generateForOrder($order);
+            \Mail::send('emails.order-status', ['order' => $order], function($message) use ($order, $request, $attach) {
+                $message->to($order->user->email, $order->user->name)
+                        ->subject('Your order '.$order->order_number.' is '.$request->order_status);
+                $message->attach($attach['path'], ['as' => 'invoice-'.$order->order_number.'.pdf', 'mime' => 'application/pdf']);
+            });
+        } catch (\Throwable $e) {
+            \Log::error('Order status email failed: '.$e->getMessage());
+        }
+
         return redirect()->back()->with('status', 'Status changed successfully!');
     }
 }

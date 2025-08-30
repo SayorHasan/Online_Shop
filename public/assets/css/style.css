@@ -75,7 +75,7 @@
   --bs-gray-dark: #343a40;
   --bs-primary: #222222;
   --bs-secondary: #767676;
-  --bs-success: #def2d7;
+  --bs-success: #28a745;
   --bs-info: #cde9f6;
   --bs-warning: #f7f3d7;
   --bs-danger: #ecc8c5;
@@ -3379,7 +3379,7 @@ progress {
   background-color: #767676 !important; }
 
 .bg-success {
-  background-color: #def2d7 !important; }
+  background-color: #28a745 !important; }
 
 .bg-info {
   background-color: #cde9f6 !important; }
@@ -6462,7 +6462,7 @@ body {
   background-color: #FFD35B !important; }
 
 .bg-light-green-e4f5f2 {
-  background-color: #e4f5f2 !important; }
+  background-color: #4CAF50 !important; }
 
 .color-white {
   color: #fff !important; }

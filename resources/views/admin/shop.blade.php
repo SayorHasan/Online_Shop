@@ -2,79 +2,85 @@
 
 @section('content')
 <style>
-        /* Quick Stats Styling - Larger and More Prominent */
+        /* Quick Stats - Black & White Design (Consistent with Admin Layout) */
         .quick-stats {
-            background: white;
-            border: 2px solid #dee2e6;
-            border-radius: 25px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         
         .quick-stats .center-heading {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #212529;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #000000;
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
         }
         
         .quick-stats .stat-item {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 2.5rem 2rem;
-            border-radius: 20px;
-            border: 2px solid #dee2e6;
+            background: #000000;
+            color: #ffffff;
+            padding: 1rem;
+            border-radius: 10px;
             text-align: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
             transition: all 0.3s ease;
         }
         
+        .quick-stats .stat-item:last-child {
+            margin-bottom: 0;
+        }
+        
         .quick-stats .stat-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-            border-color: #212529;
+            background: #ffffff;
+            color: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
         
         .quick-stats .stat-icon {
-            width: 80px;
-            height: 80px;
-            background: #212529;
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            color: #000000;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 0.75rem;
             transition: all 0.3s ease;
         }
         
-        .quick-stats .stat-icon i {
-            font-size: 2.5rem;
-            color: white;
+        .quick-stats .stat-item:hover .stat-icon {
+            background: #000000;
+            color: #ffffff;
         }
         
-        .quick-stats .stat-item:hover .stat-icon {
-            background: #495057;
-            transform: scale(1.1);
+        .quick-stats .stat-icon i {
+            font-size: 1.2rem;
+            font-weight: 600;
         }
         
         .quick-stats .stat-number {
-            font-size: 3.5rem;
+            font-size: 2rem;
             font-weight: 900;
-            color: #212529;
-            margin-bottom: 0.75rem;
+            color: inherit;
+            margin-bottom: 0.25rem;
             line-height: 1;
         }
         
         .quick-stats .stat-label {
-            font-size: 1.3rem;
-            color: #6c757d;
+            font-size: 0.8rem;
+            color: inherit;
             text-transform: uppercase;
-            letter-spacing: 1.2px;
-            font-weight: 700;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+            opacity: 0.9;
         }
         
     .shop-header {
@@ -435,8 +441,8 @@
     <section class="shop-header">
         <div class="row align-items-center">
             <div class="col-lg-8">
-                <h1 class="page-title">Shop</h1>
-                <p class="page-subtitle">Manage and view all products in your store</p>
+                <h1 class="page-title">Admin Shop View</h1>
+                <p class="page-subtitle">Manage and view all products in your store (Admin Panel)</p>
             </div>
             <div class="col-lg-4 text-lg-end">
                 <div class="view-mode-toggle">

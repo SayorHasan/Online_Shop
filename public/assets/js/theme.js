@@ -190,7 +190,7 @@ function pureFadeOut(e) {
         resetButton: '.search-popup__reset',
         searchCategorySelector: '.js-search-select',
         resultContainer: '.search-result',
-        ajaxURL: './search.html'
+        ajaxURL: '#'
       }
 
       this.searchInputFocusedClass = 'search-field__focused';
@@ -1332,11 +1332,11 @@ function pureFadeOut(e) {
   });
 
   $('.shopping-cart .btn-checkout').off('click').on('click', function() {
-    window.location.href='./shop_checkout.html';
+    // window.location.href = '/checkout'; // handled server-side
   });
 
   $('.checkout-form .btn-checkout').off('click').on('click', function() {
-    window.location.href='./shop_order_complete.html';
+    // window.location.href = '/checkout/confirmation'; // handled server-side
   });
 
   document.querySelector('.js-show-register').addEventListener('click', function(e) {

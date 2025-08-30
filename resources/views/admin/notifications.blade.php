@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <style>
-    /* High-contrast black & white for admin orders */
+    /* High-contrast black & white for admin notifications */
     .table { color: #111; }
     .table thead th {
         background-color: #000 !important;
@@ -29,7 +29,7 @@
 <div class="main-content-inner">                            
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3>Orders</h3>
+            <h3>Notifications</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li>
                     <a href="{{route('admin.index')}}">
@@ -40,7 +40,7 @@
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <div class="text-tiny">All Orders</div>
+                    <div class="text-tiny">All Notifications</div>
                 </li>
             </ul>
         </div>
@@ -63,65 +63,46 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th style="width: 80px">Order No</th>
-                                <th>Customer</th>
-                                <th class="text-center">Phone</th>
-                                <th class="text-center">Subtotal</th>
-                                <th class="text-center">Tax</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Customer</th>
+                                <th class="text-center">Order #</th>
+                                <th class="text-center">Items</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center">Order Date</th>
-                                <th class="text-center">Total Items</th>
-                                <th class="text-center">Payment Status</th>
-                                <th></th>
+                                <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($orders as $order)
+                            @forelse($notifications as $note)
                             <tr>
-                                <td class="text-center">{{ '1' . str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</td>  
-                                <td class="text-center">{{ $order->user->name ?? 'N/A' }}</td>
-                                <td class="text-center">{{ $order->shippingAddress->phone ?? 'N/A' }}</td>
-                                <td class="text-center">${{ number_format($order->subtotal, 2) }}</td>
-                                <td class="text-center">${{ number_format($order->tax, 2) }}</td>
-                                <td class="text-center">${{ number_format($order->total, 2) }}</td>
+                                <td class="text-center">{{ $note->created_at->format('M d, Y H:i') }}</td>
+                                <td class="text-center">{{ $note->data['user_name'] ?? 'Customer' }}</td>
+                                <td class="text-center">{{ $note->data['order_number'] ?? '' }}</td>
+                                <td class="text-center">{{ $note->data['item_count'] ?? 0 }}</td>
+                                <td class="text-center">${{ number_format($note->data['total'] ?? 0,2) }}</td>
                                 <td class="text-center">
-                                    @if($order->status == 'ordered')
-                                        <span class="badge bg-warning">Ordered</span>
-                                    @elseif($order->status == 'delivered')
-                                        <span class="badge" style="background: #000; color: #fff; font-weight: bold;">Delivered</span>
-                                    @elseif($order->status == 'canceled')
-                                        <span class="badge bg-danger">Canceled</span>
+                                    @if(is_null($note->read_at))
+                                        <span class="badge bg-warning">Unread</span>
                                     @else
-                                        <span class="badge bg-secondary">{{ ucfirst($order->status) }}</span>
-                                    @endif
-                                </td>
-                                <td class="text-center">{{ $order->created_at->format('M d, Y') }}</td>
-                                <td class="text-center">{{ $order->items->count() }}</td>
-                                <td class="text-center">
-                                    @if($order->payment_status == 'pending')
-                                        <span class="badge bg-warning">Pending</span>
-                                    @elseif($order->payment_status == 'paid')
-                                        <span class="badge" style="background: #000; color: #fff; font-weight: bold;">Paid</span>
-                                    @elseif($order->payment_status == 'failed')
-                                        <span class="badge bg-danger">Failed</span>
-                                    @else
-                                        <span class="badge bg-secondary">{{ ucfirst($order->payment_status) }}</span>
+                                        <span class="badge" style="background: #000; color: #fff; font-weight: bold;">Read</span>
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.order.details', ['id' => $order->id]) }}">
+                                    <a href="{{ route('admin.order.details', $note->data['order_id'] ?? 0) }}">
                                         <div class="list-icon-function view-icon">
                                             <div class="item eye">
                                                 <i class="icon-eye"></i>
                                             </div>                                        
                                         </div>
                                     </a>
+                                    @if(is_null($note->read_at))
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="markRead('{{ $note->id }}')">Mark as read</button>
+                                    @endif
                                 </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="11" class="text-center">No orders found</td>
+                                <td colspan="7" class="text-center">No notifications found</td>
                             </tr>
                             @endforelse                                  
                         </tbody>
@@ -130,9 +111,32 @@
             </div>
             <div class="divider"></div>
             <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">                
-                {{ $orders->links() }}
+                {{ $notifications->links() }}
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+function markRead(id){
+  fetch('{{ url('/admin/notifications') }}/'+id+'/read', {method:'POST', headers:{'X-CSRF-TOKEN':'{{ csrf_token() }}'}})
+   .then(()=> {
+      // refresh both counts if present on page
+      fetch('{{ route('admin.notifications.count') }}')
+        .then(r=>r.json())
+        .then(d=>{ 
+          const notifEl = document.getElementById('notifCount'); 
+          if(notifEl){ notifEl.innerText = d.count; } 
+          
+          const sidebarEl = document.getElementById('sidebarOrderCount');
+          if(sidebarEl){ sidebarEl.innerText = d.order_count; }
+        });
+      location.reload();
+   });
+}
+</script>
+@endpush
 @endsection
+
+

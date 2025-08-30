@@ -16,9 +16,13 @@
     .page-title {
         font-size: 2.5rem;
         font-weight: 700;
-        color: #212529;
+        color: var(--text-primary);
         margin-bottom: 2rem;
         text-align: center;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
     .checkout-steps {
         display: flex;
@@ -72,22 +76,23 @@
         align-items: start;
     }
     .cart-table__wrapper {
-        background: white;
-        border-radius: 15px;
+        background: var(--bg-primary);
+        border-radius: var(--radius-lg);
         padding: 2rem;
-        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
     }
     .cart-table {
         width: 100%;
         border-collapse: collapse;
     }
     .cart-table th {
-        background: #f8f9fa;
+        background: var(--bg-secondary);
         padding: 1rem;
         text-align: left;
         font-weight: 600;
-        color: #212529;
-        border-bottom: 2px solid #dee2e6;
+        color: var(--text-primary);
+        border-bottom: 2px solid var(--border-color);
     }
     .cart-table td {
         padding: 1rem;
@@ -503,6 +508,12 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Update header cart counts immediately
+                const headerCount = document.getElementById('headerCartCount');
+                const userCount = document.getElementById('userCartCount');
+                if (headerCount) headerCount.innerText = data.cart_count;
+                if (userCount) userCount.innerText = data.cart_count;
+                
                 location.reload();
             } else {
                 alert(data.message);
@@ -527,13 +538,19 @@
                 })
             })
             .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    alert(data.message);
-                }
-            })
+                    .then(data => {
+            if (data.success) {
+                // Update header cart counts immediately
+                const headerCount = document.getElementById('headerCartCount');
+                const userCount = document.getElementById('userCartCount');
+                if (headerCount) headerCount.innerText = data.cart_count;
+                if (userCount) userCount.innerText = data.cart_count;
+                
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        })
             .catch(error => {
                 console.error('Error:', error);
                 alert('An error occurred while removing item');
@@ -632,6 +649,12 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // Update header cart counts immediately
+                    const headerCount = document.getElementById('headerCartCount');
+                    const userCount = document.getElementById('userCartCount');
+                    if (headerCount) headerCount.innerText = data.cart_count;
+                    if (userCount) userCount.innerText = data.cart_count;
+                    
                     location.reload();
                 } else {
                     alert(data.message);

@@ -21,6 +21,28 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Project Changes (2025-08)
+
+### Removed
+- Unused Blade views: `resources/views/home.blade.php`, `resources/views/welcome.blade.php`
+- Debug route `/test-product/{id}` from `routes/web.php`
+
+### Added
+- Static pages (using `layouts.app`):
+  - `resources/views/static/about.blade.php` → `/about`
+  - `resources/views/static/contact.blade.php` → `/contact`
+  - `resources/views/static/privacy.blade.php` → `/privacy`
+  - `resources/views/static/terms.blade.php` → `/terms`
+
+### Updated
+- `resources/views/layouts/app.blade.php`: header/footer links now target the static routes; Privacy/Terms updated
+- `resources/views/layouts/admin.blade.php`: logout triggers POST to `route('logout')`
+
+### How to use
+- Storefront: `/`
+- Static pages: `/about`, `/contact`, `/privacy`, `/terms`
+- Admin: `/admin` (auth + admin middleware)
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
