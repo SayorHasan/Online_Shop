@@ -11,23 +11,17 @@
     }
     
     .orders-header {
-        background: var(--primary-gradient);
-        color: white;
+        background: #ffffff;
+        color: #333;
         padding: 2rem;
         text-align: center;
         position: relative;
         overflow: hidden;
+        border-bottom: 1px solid #e9ecef;
     }
     
     .orders-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-        opacity: 0.3;
+        display: none;
     }
     
     .orders-header h2 {
@@ -36,14 +30,14 @@
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        color: #333;
     }
     
     .orders-header p {
         position: relative;
         z-index: 2;
         font-size: 1.1rem;
-        opacity: 0.9;
+        color: #666;
         margin-bottom: 0;
     }
     
