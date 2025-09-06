@@ -50,8 +50,8 @@
 
             <!-- Product Info -->
             <div class="col-lg-6">
-                <div class="product-info" style="background: var(--bg-primary); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);">
-                    <h1 class="h2 mb-4" style="color: var(--text-primary); font-weight: 700;">{{ $product->name }}</h1>
+                <div class="product-info hover-lift" style="background: var(--bg-primary); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);">
+                    <h1 class="h2 mb-4 text-gradient" style="font-weight: 700;">{{ $product->name }}</h1>
                     
                     <!-- Product Meta -->
                     <div class="product-meta mb-4">

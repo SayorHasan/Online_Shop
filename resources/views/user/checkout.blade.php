@@ -13,9 +13,24 @@
     .page-title {
         font-size: 2.5rem;
         font-weight: 700;
-        color: #212529;
         margin-bottom: 2rem;
         text-align: center;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: fadeInUp 0.8s ease;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
     .checkout-steps {
         display: flex;

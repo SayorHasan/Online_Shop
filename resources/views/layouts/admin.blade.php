@@ -59,6 +59,51 @@
             min-height: 100vh;
         }
         
+        /* Enhanced Admin Animations */
+        .admin-card {
+            transition: var(--admin-transition);
+            border-radius: var(--admin-radius);
+            box-shadow: var(--admin-shadow);
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--admin-shadow-lg);
+        }
+        
+        /* Enhanced Admin Buttons */
+        .admin-btn {
+            border-radius: var(--admin-radius);
+            font-weight: 600;
+            transition: var(--admin-transition);
+            border: none;
+            padding: 0.75rem 1.5rem;
+        }
+        
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--admin-shadow-lg);
+        }
+        
+        /* Enhanced Admin Tables */
+        .admin-table {
+            border-radius: var(--admin-radius);
+            overflow: hidden;
+            box-shadow: var(--admin-shadow);
+        }
+        
+        .admin-table thead th {
+            background: var(--admin-primary);
+            color: white;
+            font-weight: 600;
+            border: none;
+        }
+        
+        .admin-table tbody tr:hover {
+            background: var(--admin-bg-secondary);
+            transition: var(--admin-transition);
+        }
+        
         .layout-wrap {
             display: flex;
             width: 100%;

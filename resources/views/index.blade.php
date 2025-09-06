@@ -92,8 +92,8 @@
 <div class="container mw-1620 bg-white border-radius-10">
   <div class="mb-3 mb-xl-5 pt-1 pb-4"></div>
   <section class="category-carousel container">
-    <div class="section-header">
-      <h2>You Might Like</h2>
+    <div class="section-header fade-in">
+      <h2 class="text-gradient">You Might Like</h2>
       <p>Discover our curated collection of trending categories</p>
     </div>
 

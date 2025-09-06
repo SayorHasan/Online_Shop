@@ -210,7 +210,7 @@
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" id="products-grid">
                         @foreach($products as $product)
                         <div class="col mb-4">
-                            <div class="product-card h-100" style="background: var(--bg-primary); border-radius: var(--radius-lg); border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition); overflow: hidden;">
+                            <div class="product-card h-100 hover-lift" style="background: var(--bg-primary); border-radius: var(--radius-lg); border: 2px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition); overflow: hidden; position: relative;">
                                 <div class="pc__img-wrapper position-relative">
                                     <div class="pc__img-slider">
                                         <div class="pc__img-slide">

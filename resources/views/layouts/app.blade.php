@@ -26,6 +26,52 @@
     crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="{{ asset('css/sweetalert.min.css') }}" type="text/css">
     
+    <!-- Beautiful Loading Animation -->
+    <style>
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loader-text {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+    </style>
+    
     <!-- Professional Design System CSS -->
     <style>
         :root {
@@ -76,6 +122,65 @@
             line-height: 1.6;
             color: var(--text-primary);
             background: var(--bg-secondary);
+            scroll-behavior: smooth;
+        }
+        
+        /* Enhanced Loading States */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Smooth Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Enhanced Hover Effects */
+        .hover-lift {
+            transition: var(--transition);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        /* Professional Focus States */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+        
+        /* Enhanced Typography */
+        .text-gradient {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         /* Professional Button System */
@@ -96,8 +201,13 @@
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            filter: brightness(1.1);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(-1px);
         }
         
         .btn-secondary {
@@ -128,8 +238,29 @@
         }
         
         .card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+        
+        .card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .card:hover::before {
+            left: 100%;
         }
         
         .card-header {
@@ -198,6 +329,49 @@
             border-radius: var(--radius-md);
             border: none;
             padding: 1rem 1.5rem;
+            animation: slideInRight 0.5s ease;
+            box-shadow: var(--shadow-md);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Beautiful Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        .toast {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 10px;
+            animation: slideInRight 0.3s ease;
+        }
+        
+        .toast.success {
+            border-left-color: var(--success-color);
+        }
+        
+        .toast.error {
+            border-left-color: var(--danger-color);
+        }
+        
+        .toast.warning {
+            border-left-color: var(--warning-color);
+        }
             font-weight: 500;
         }
         
@@ -288,6 +462,14 @@
     @stack("styles")
 </head>
 <body class="gradient-bg">
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+    
   @php
     // Simple helper to determine shop route
     $isAdmin = request()->is('admin*') || (auth()->check() && auth()->user()->utype === 'ADM');
@@ -1028,6 +1210,42 @@
     </div>
   </footer>
 
+  <!-- Beautiful Scroll to Top Button -->
+  <button id="scrollToTop" class="scroll-to-top" style="display: none;">
+    <i class="fa fa-chevron-up"></i>
+  </button>
+  
+  <style>
+    .scroll-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    
+    .scroll-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .scroll-to-top.show {
+      animation: fadeInUp 0.3s ease;
+    }
+  </style>
+  
   <div id="scrollTop" class="visually-hidden end-0"></div>
   <div class="page-overlay"></div>
 
@@ -1047,6 +1265,56 @@
   </style>
   
   <script>
+    // Page Loader
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('pageLoader');
+        if (loader) {
+            setTimeout(() => {
+                loader.classList.add('loader-hidden');
+            }, 500);
+        }
+    });
+    
+    // Scroll Animation Observer
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all fade-in elements
+    document.addEventListener('DOMContentLoaded', function() {
+        const fadeElements = document.querySelectorAll('.fade-in');
+        fadeElements.forEach(el => observer.observe(el));
+        
+        // Scroll to Top functionality
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'flex';
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.style.display = 'none';
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    });
+    
     // Function to update cart count in all locations
     function updateCartCount(count) {
       const headerCount = document.getElementById('headerCartCount');

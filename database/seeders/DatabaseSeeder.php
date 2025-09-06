@@ -18,6 +18,16 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'mobile' => '1234567890',
+            'utype' => 'USR',
+        ]);
+        
+        // Create admin user
+        User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'mobile' => '0987654321',
+            'utype' => 'ADM',
         ]);
     }
 }
