@@ -131,7 +131,7 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/onlineshop.git
+   git clone https://github.com/SayorHasan/onlineshop.git
    cd onlineshop
    ```
 
