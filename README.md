@@ -80,28 +80,44 @@
 ## 📸 Screenshots
 
 ### 🏠 **Homepage**
-- Beautiful hero section with animated slideshow
-- Product categories showcase
-- Featured products grid
-- Professional navigation and footer
+<div align="center">
+  <img src="screenshots/homepage.png" alt="Homepage" width="800"/>
+  <p><em>Beautiful hero section with animated slideshow, product categories showcase, and featured products grid</em></p>
+</div>
 
 ### 🛍️ **Shop & Product Pages**
-- Advanced product filtering and search
-- Product detail pages with image galleries
-- Shopping cart with real-time updates
-- Wishlist functionality
+<div align="center">
+  <img src="screenshots/shop-page.png" alt="Shop Page" width="800"/>
+  <p><em>Advanced product filtering, search functionality, and product grid layout</em></p>
+</div>
+
+<div align="center">
+  <img src="screenshots/product-details.png" alt="Product Details" width="800"/>
+  <p><em>Product detail page with image gallery, reviews, and add to cart functionality</em></p>
+</div>
+
+### 🛒 **Shopping Cart**
+<div align="center">
+  <img src="screenshots/cart-page.png" alt="Shopping Cart" width="800"/>
+  <p><em>Shopping cart with real-time updates, quantity management, and checkout process</em></p>
+</div>
 
 ### 👤 **User Dashboard**
-- Order history and tracking
-- Address management
-- Account settings
-- Coupon management
+<div align="center">
+  <img src="screenshots/user-dashboard.png" alt="User Dashboard" width="800"/>
+  <p><em>Order history, address management, and account settings</em></p>
+</div>
 
 ### ⚙️ **Admin Panel**
-- Comprehensive dashboard with analytics
-- Product management interface
-- Order processing system
-- User and content management
+<div align="center">
+  <img src="screenshots/admin-dashboard.png" alt="Admin Dashboard" width="800"/>
+  <p><em>Comprehensive dashboard with analytics, sales statistics, and management tools</em></p>
+</div>
+
+<div align="center">
+  <img src="screenshots/admin-products.png" alt="Admin Products" width="800"/>
+  <p><em>Product management interface with add, edit, and delete functionality</em></p>
+</div>
 
 ## 🚀 Installation & Setup
 
